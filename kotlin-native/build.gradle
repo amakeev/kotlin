@@ -168,6 +168,9 @@ tasks.register("distNativeSources", Zip) {
                 .collect { zipTree(it) }
                 .inject { t1, t2 -> t1 + t2 }
     }
+    into('commonNonJvmMain') {
+        from(project(":kotlin-stdlib").file('common-non-jvm/src/'))
+    }
     into('nativeWasmMain') {
         from(project(":kotlin-stdlib").file('native-wasm/src/'))
     }
