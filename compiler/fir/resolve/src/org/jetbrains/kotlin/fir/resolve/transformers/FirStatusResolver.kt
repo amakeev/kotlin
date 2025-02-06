@@ -5,20 +5,27 @@
 
 package org.jetbrains.kotlin.fir.resolve.transformers
 
+import org.jetbrains.kotlin.config.AnalysisFlags
 import org.jetbrains.kotlin.config.LanguageFeature
+import org.jetbrains.kotlin.config.ReturnValueCheckerMode
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.impl.FirDeclarationStatusImpl
 import org.jetbrains.kotlin.fir.declarations.utils.*
+import org.jetbrains.kotlin.fir.expressions.FirAnnotation
+import org.jetbrains.kotlin.fir.expressions.UnresolvedExpressionTypeAccess
 import org.jetbrains.kotlin.fir.extensions.FirStatusTransformerExtension
 import org.jetbrains.kotlin.fir.extensions.extensionService
 import org.jetbrains.kotlin.fir.extensions.statusTransformerExtensions
 import org.jetbrains.kotlin.fir.languageVersionSettings
 import org.jetbrains.kotlin.fir.resolve.ScopeSession
+import org.jetbrains.kotlin.fir.resolve.providers.firProvider
 import org.jetbrains.kotlin.fir.scopes.ProcessorAction
 import org.jetbrains.kotlin.fir.scopes.unsubstitutedScope
+import org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol
 import org.jetbrains.kotlin.fir.toEffectiveVisibility
+import org.jetbrains.kotlin.fir.types.classId
 import org.jetbrains.kotlin.fir.types.typeContext
 import org.jetbrains.kotlin.fir.utils.exceptions.withFirEntry
 import org.jetbrains.kotlin.fir.visibilityChecker
@@ -301,7 +308,42 @@ class FirStatusResolver(
             status.isExpect = true
         }
 
+        status.hasMustUseReturnValue = computeMustUseReturnValue(declaration, isLocal) {
+            session.firProvider.getFirCallableContainerFile(it)?.annotations.orEmpty() + (containingClass?.annotations.orEmpty() + containingProperty?.annotations.orEmpty())
+        }
+
         return status.resolved(visibility, modality, effectiveVisibility)
+    }
+
+    fun computeMustUseReturnValue(
+        declaration: FirDeclaration,
+        isLocal: Boolean,
+        getContainingAnnotations: (FirCallableSymbol<*>) -> List<FirAnnotation>,
+    ): Boolean {
+        if (declaration !is FirCallableDeclaration) return false
+        val analysisMode = session.languageVersionSettings.getFlag(AnalysisFlags.returnValueCheckerMode)
+        if (analysisMode == ReturnValueCheckerMode.DISABLED) return false
+
+        if (isLocal) {
+            return declaration is FirFunction
+        }
+
+        if (declaration.hasAnnotation(StandardClassIds.Annotations.IgnorableReturnValue, session)) return false
+
+        if (declaration.hasAnnotation(StandardClassIds.Annotations.MustUseReturnValue, session)) return true
+        val containingAnnotations = getContainingAnnotations(declaration.symbol)
+
+        // FIXME?: In AA@LLReversedDiagnosticsFe10, at this point of time, file-level annotations are still unresolved.
+        // It does not matter for FULL mode anyway, but matters for CHECKER.
+        // Tbh I think this should be changed as most likely file-level @MRV annotations will be flaky in the IDE.
+        // (unless we re-check them once again in the checker)
+        // This is also may be a source of bugs like KTIJ-22253.
+        @OptIn(UnresolvedExpressionTypeAccess::class)
+        if (containingAnnotations.any { it.coneTypeOrNull?.classId == StandardClassIds.Annotations.MustUseReturnValue }) return true
+
+        if (analysisMode == ReturnValueCheckerMode.FULL) return true
+
+        return false
     }
 
     private fun resolveVisibility(
