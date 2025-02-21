@@ -7560,6 +7560,12 @@ public class PhasedJvmDiagnosticPsiTestGenerated extends AbstractPhasedJvmDiagno
     @TestDataPath("$PROJECT_ROOT")
     public class Contracts {
       @Test
+      @TestMetadata("checkForErased.kt")
+      public void testCheckForErased() {
+        runTest("compiler/testData/diagnostics/tests/contracts/checkForErased.kt");
+      }
+
+      @Test
       @TestMetadata("contractInDiagnosticRendering.kt")
       public void testContractInDiagnosticRendering() {
         runTest("compiler/testData/diagnostics/tests/contracts/contractInDiagnosticRendering.kt");
