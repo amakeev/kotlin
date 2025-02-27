@@ -13,6 +13,8 @@ package org.jetbrains.kotlin.ir.declarations.impl
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.IrImplementationDetail
+import org.jetbrains.kotlin.ir.IrIndexBasedAttribute
+import org.jetbrains.kotlin.ir.IrIndexBasedAttributeRegistry
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
@@ -38,7 +40,7 @@ class IrClassImpl @IrImplementationDetail constructor(
 
     override var annotations: List<IrConstructorCall> = emptyList()
 
-    override var isExternal: Boolean = false
+    override var isExternal: Boolean by isExternalAttribute
 
     override var typeParameters: List<IrTypeParameter> = emptyList()
 
@@ -75,5 +77,9 @@ class IrClassImpl @IrImplementationDetail constructor(
 
     init {
         symbol.bind(this)
+    }
+
+    companion object {
+        private val isExternalAttribute = IrIndexBasedAttribute<Boolean>(IrIndexBasedAttributeRegistry, 1, "isExternal")
     }
 }

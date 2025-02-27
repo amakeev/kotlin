@@ -42,6 +42,8 @@ private fun TreeGenerator.printIrTree(model: Model<Element>, generationPath: Fil
         .configureInterfacesAndAbstractClasses()
     model.addPureAbstractElement(elementBaseType)
 
+    assignCoreAttributeIds(model)
+
     printElements(model, ::ElementPrinter)
     printElementImplementations(implementations, ::ImplementationPrinter)
     printVisitors(
@@ -113,4 +115,36 @@ private fun TreeGenerator.printIrSymbolTree(generationPath: File, model: Model<E
             makePrinter(this, model.elements, type).printSymbolVisitor()
         }
     }
+}
+
+private fun assignCoreAttributeIds(model: Model<Element>) {
+    val elements = model.elements.sortedBy { it.elementDescendantsDepthFirst().count() }
+    val implementations = elements.flatMap { it.implementations }
+    val fieldsByName = buildList {
+        implementations.forEach { impl ->
+            impl.allFields.forEach {
+                add(impl to it)
+            }
+        }
+    }.groupBy { it.second.name }
+    var maxAllocatedId = -1
+    for ((name, fieldsWithImpl) in fieldsByName) {
+        var id = -1
+        selectId@ while (true) {
+            for ((impl, _) in fieldsWithImpl) {
+                if (id == -1 || impl.allocatedFields[id]) {
+                    id = impl.allocatedFields.nextClearBit(id + 1)
+                    continue@selectId
+                }
+            }
+            break@selectId
+        }
+
+        maxAllocatedId = maxOf(maxAllocatedId, id)
+        for ((impl, field) in fieldsWithImpl) {
+            field.id = id
+            impl.allocatedFields[id] = true
+        }
+    }
+    println("Max allocated ID: $maxAllocatedId")
 }

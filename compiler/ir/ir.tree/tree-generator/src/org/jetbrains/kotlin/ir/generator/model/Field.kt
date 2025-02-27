@@ -35,6 +35,8 @@ sealed class Field(
      */
     var deepCopyExcludeFromApply: Boolean = false
 
+    var id = -1
+
     override fun updateFieldsInCopy(copy: Field) {
         super.updateFieldsInCopy(copy)
         copy.customSetter = customSetter

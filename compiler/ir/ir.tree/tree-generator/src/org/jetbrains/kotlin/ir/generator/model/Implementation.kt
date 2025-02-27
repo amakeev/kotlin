@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.ir.generator.model
 import org.jetbrains.kotlin.generators.tree.AbstractImplementation
 import org.jetbrains.kotlin.generators.tree.ImplementationKind
 import org.jetbrains.kotlin.generators.tree.printer.ImportCollectingPrinter
+import java.util.BitSet
 
 class Implementation(element: Element, name: String?) : AbstractImplementation<Implementation, Element, Field>(element, name) {
     override val allFields: List<Field> = element.allFields.map { it.copy() }
@@ -23,4 +24,6 @@ class Implementation(element: Element, name: String?) : AbstractImplementation<I
     init {
         isPublic = true
     }
+
+    val allocatedFields = BitSet(64)
 }
