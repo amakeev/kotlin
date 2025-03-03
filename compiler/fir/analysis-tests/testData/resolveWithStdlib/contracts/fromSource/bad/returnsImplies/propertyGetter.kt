@@ -1,8 +1,9 @@
-// RUN_PIPELINE_TILL: FRONTEND
+// RUN_PIPELINE_TILL: BACKEND
 // OPT_IN: kotlin.RequiresOptIn
 import kotlin.contracts.*
 
 @OptIn(ExperimentalContracts::class)
+@JvmName("isNotNull1")
 fun Any?.isNotNull(): Boolean {
     contract {
         returns(true) implies (this@isNotNull != null)
@@ -13,7 +14,7 @@ fun Any?.isNotNull(): Boolean {
 @OptIn(ExperimentalContracts::class)
 val Any?.isNotNull: Boolean
     get() {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
+        contract {
             returns(true) implies (this@isNotNull != null)
         }
         return this@isNotNull != null

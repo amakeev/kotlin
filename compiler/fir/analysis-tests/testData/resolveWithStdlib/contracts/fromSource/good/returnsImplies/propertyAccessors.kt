@@ -8,15 +8,15 @@ interface A {
 @OptIn(ExperimentalContracts::class)
 var Any?.isNotNull: Boolean
     get() {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
+        contract {
             returns(true) implies (this@isNotNull != null)
         }
         return this != null
     }
     set(value) {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
+        contract {
             <!WRONG_IMPLIES_CONDITION!>returns() implies (this@isNotNull != null)<!>
-            require(<!SENSELESS_COMPARISON!>this != null<!>)
+            <!ERROR_IN_CONTRACT_DESCRIPTION!>require(<!SENSELESS_COMPARISON!>this != null<!>)<!>
         }
     }
 

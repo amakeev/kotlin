@@ -1,5 +1,5 @@
 FILE: propertyGetter.kt
-    @R|kotlin/OptIn|(markerClass = vararg(<getClass>(Q|kotlin/contracts/ExperimentalContracts|))) public final fun R|kotlin/Any?|.isNotNull(): R|kotlin/Boolean|
+    @R|kotlin/OptIn|(markerClass = vararg(<getClass>(Q|kotlin/contracts/ExperimentalContracts|))) @R|kotlin/jvm/JvmName|(name = String(isNotNull1)) public final fun R|kotlin/Any?|.isNotNull(): R|kotlin/Boolean|
         [R|Contract description]
          <
             Returns(TRUE) -> this != null
