@@ -514,6 +514,7 @@ enum class LanguageFeature(
     AllowCheckForErasedTypesInContracts(sinceVersion = null, "KT-45683"),
     AllowContractsOnSomeOperators(sinceVersion = null, "KT-32313"),
     AllowContractsOnPropertyAccessors(sinceVersion = null, "KT-27090"),
+    AllowReverseImpliesReturnsContracts(sinceVersion = null, "KT-8889"),
     ;
 
     constructor(
