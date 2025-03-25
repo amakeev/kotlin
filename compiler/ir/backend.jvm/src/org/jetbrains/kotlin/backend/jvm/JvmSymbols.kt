@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.descriptors.InlineClassRepresentation
 import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.descriptors.annotations.KotlinRetention
 import org.jetbrains.kotlin.descriptors.annotations.KotlinTarget
+import org.jetbrains.kotlin.ir.InternalSymbolFinderAPI
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.builders.declarations.*
 import org.jetbrains.kotlin.ir.declarations.*
@@ -1120,6 +1121,46 @@ class JvmSymbols(
             owner.addConstructor { isPrimary = true }
         }
 
+    private fun createRefClass(refNamespaceClass: IrClass, namePrefix: String, fieldType: (IrClass) -> IrType) {
+        irFactory.addClass(refNamespaceClass) {
+            origin = IrDeclarationOrigin.IR_BUILTINS_STUB
+            name = Name.identifier(namePrefix + "Ref")
+        }.apply refClass@{
+            createThisReceiverParameter()
+            addConstructor {
+                origin = IrDeclarationOrigin.IR_BUILTINS_STUB
+            }
+            val elementPropertyName = Name.identifier("element")
+            val elementProperty = addProperty {
+                name = elementPropertyName
+                origin = IrDeclarationOrigin.IR_BUILTINS_STUB
+                isVar = true
+            }
+            elementProperty.backingField = irFactory.buildField {
+                origin = IrDeclarationOrigin.IR_BUILTINS_STUB
+                name = Name.identifier("element")
+                type = fieldType(this@refClass)
+            }.apply {
+                parent = this@refClass
+            }
+        }
+    }
+
+    override fun findCommonRefNamespaceClass(): IrClassSymbol? = null
+
+    override val refNamespaceClass: IrClassSymbol =
+        createClass(FqName("kotlin.jvm.internal.Ref")) { klass ->
+            for (primitiveType in irBuiltIns.primitiveIrTypes) {
+                createRefClass(klass, primitiveType.classOrNull!!.owner.name.asString()) { primitiveType }
+            }
+            createRefClass(klass, "Object") { refClass ->
+                refClass.addTypeParameter {
+                    name = Name.identifier("T")
+                    superTypes.add(irBuiltIns.anyType)
+                }.defaultType
+            }
+        }
+
     val javaAnnotations = JavaAnnotations()
 
     inner class JavaAnnotations {
@@ -1223,3 +1264,11 @@ fun IrClassSymbol.functionByName(name: String): IrSimpleFunctionSymbol =
 
 fun IrClassSymbol.fieldByName(name: String): IrFieldSymbol =
     fields.single { it.owner.name.asString() == name }
+
+private inline fun IrFactory.addClass(
+    container: IrDeclarationContainer,
+    builder: IrClassBuilder.() -> Unit
+): IrClass = buildClass(builder).also {
+    it.parent = container
+    container.declarations += it
+}

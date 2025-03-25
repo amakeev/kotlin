@@ -272,7 +272,7 @@ class NaiveSourceBasedFileEntryImpl(
 
 // This declaration accesses IrDeclarationContainer.declarations, which is marked with this opt-in
 @UnsafeDuringIrConstructionAPI
-private fun IrClass.getPropertyDeclaration(name: String): IrProperty? {
+fun IrClass.getPropertyDeclaration(name: String): IrProperty? {
     val properties = declarations.filterIsInstanceAnd<IrProperty> { it.name.asString() == name }
     if (properties.size > 1) {
         error(
