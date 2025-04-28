@@ -102,7 +102,7 @@ interface KotlinPaths {
         ScriptingJvmLib(PathUtil.KOTLIN_SCRIPTING_JVM_NAME),
         CoroutinesCore(PathUtil.KOTLINX_COROUTINES_CORE_NAME),
         KotlinDaemon(PathUtil.KOTLIN_DAEMON_NAME),
-        MainKts(PathUtil.MAIN_KTS_NAME)
+        MainKts(PathUtil.KOTLIN_SCRIPTING_MAIN_KTS_NAME)
     }
 
     // TODO: Maybe we need separate classpaths for compilers with and without the daemon

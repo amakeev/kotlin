@@ -121,6 +121,9 @@ val TestFile.isKtFile: Boolean
 val TestFile.isKtsFile: Boolean
     get() = name.endsWith(".kts")
 
+val TestFile.isMainKtsFile: Boolean
+    get() = name.endsWith(".main.kts")
+
 val TestFile.isJavaFile: Boolean
     get() = name.endsWith(".java")
 

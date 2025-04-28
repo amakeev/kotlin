@@ -23,7 +23,3 @@ fun loadScriptingPlugin(configuration: CompilerConfiguration, parentDisposable: 
     }
     PluginCliParser.loadPluginsSafe(pluginClasspath, emptyList(), emptyList(), configuration, parentDisposable)
 }
-
-fun loadScriptingPlugin(configuration: CompilerConfiguration, parentDisposable: Disposable, pluginClasspath: Collection<String>) {
-    PluginCliParser.loadPluginsSafe(pluginClasspath, emptyList(), emptyList(), configuration, parentDisposable)
-}

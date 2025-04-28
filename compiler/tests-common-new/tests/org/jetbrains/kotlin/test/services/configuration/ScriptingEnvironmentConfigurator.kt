@@ -6,16 +6,25 @@
 package org.jetbrains.kotlin.test.services.configuration
 
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.mainKts.MainKtsScript
 import org.jetbrains.kotlin.script.loadScriptingPlugin
+import org.jetbrains.kotlin.scripting.configuration.ScriptingConfigurationKeys
+import org.jetbrains.kotlin.scripting.definitions.ScriptDefinition
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.*
+import kotlin.script.experimental.jvm.defaultJvmScriptingHostConfiguration
 
 class ScriptingEnvironmentConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
     override fun configureCompilerConfiguration(configuration: CompilerConfiguration, module: TestModule) {
         if (module.files.any { it.isKtsFile }) {
-            val parentDisposable = testServices.compilerConfigurationProvider.testRootDisposable
-            val pluginFiles = testServices.standardLibrariesPathProvider.scriptingPluginFilesForTests().map { it.path }
-            loadScriptingPlugin(configuration, parentDisposable, pluginFiles)
+            if (module.files.any { it.isMainKtsFile }) {
+                val def = ScriptDefinition.FromTemplate(
+                    defaultJvmScriptingHostConfiguration,
+                    MainKtsScript::class
+                )
+                configuration.add(ScriptingConfigurationKeys.SCRIPT_DEFINITIONS, def)
+            }
+            loadScriptingPlugin(configuration, testServices.compilerConfigurationProvider.testRootDisposable)
         }
     }
 }

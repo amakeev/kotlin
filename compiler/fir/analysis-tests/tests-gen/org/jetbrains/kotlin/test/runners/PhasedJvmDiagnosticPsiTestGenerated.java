@@ -56324,6 +56324,24 @@ public class PhasedJvmDiagnosticPsiTestGenerated extends AbstractPhasedJvmDiagno
     @TestDataPath("$PROJECT_ROOT")
     public class Scripts {
       @Test
+      @TestMetadata("mainKtsSameImportedSymbolsShouldConflict.kts")
+      public void testMainKtsSameImportedSymbolsShouldConflict() {
+        runTest("compiler/fir/analysis-tests/testData/resolve/scripts/mainKtsSameImportedSymbolsShouldConflict.kts");
+      }
+
+      @Test
+      @TestMetadata("mainKtsSymbolsFromImported2ndLevelScriptShouldBeVisible.kts")
+      public void testMainKtsSymbolsFromImported2ndLevelScriptShouldBeVisible() {
+        runTest("compiler/fir/analysis-tests/testData/resolve/scripts/mainKtsSymbolsFromImported2ndLevelScriptShouldBeVisible.kts");
+      }
+
+      @Test
+      @TestMetadata("mainKtsSymbolsFromImportedScriptShouldBeVisible.kts")
+      public void testMainKtsSymbolsFromImportedScriptShouldBeVisible() {
+        runTest("compiler/fir/analysis-tests/testData/resolve/scripts/mainKtsSymbolsFromImportedScriptShouldBeVisible.kts");
+      }
+
+      @Test
       @TestMetadata("scriptDeclsShouldBeVisibleFromOtherSources.kts")
       public void testScriptDeclsShouldBeVisibleFromOtherSources() {
         runTest("compiler/fir/analysis-tests/testData/resolve/scripts/scriptDeclsShouldBeVisibleFromOtherSources.kts");

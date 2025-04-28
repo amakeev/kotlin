@@ -170,10 +170,9 @@ object StandardLibrariesPathProviderForKotlinProject : KotlinStandardLibrariesPa
             val libPath = PathUtil.kotlinPathsForCompiler.libPath
             val pluginClasspath = with(PathUtil) {
                 listOf(
-                    KOTLIN_SCRIPTING_COMPILER_PLUGIN_JAR,
-                    KOTLIN_SCRIPTING_COMPILER_IMPL_JAR,
-                    KOTLIN_SCRIPTING_COMMON_JAR,
-                    KOTLIN_SCRIPTING_JVM_JAR
+                    KOTLIN_JAVA_REFLECT_JAR,
+                    KOTLIN_JAVA_STDLIB_JAR,
+                    KOTLIN_JAVA_SCRIPT_RUNTIME_JAR,
                 ).map {
                     val file = File(libPath, it)
                     if (!file.exists()) {

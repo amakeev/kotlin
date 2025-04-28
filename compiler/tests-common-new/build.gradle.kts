@@ -30,6 +30,8 @@ dependencies {
     testApi(projectTests(":compiler:tests-compiler-utils"))
     testApi(project(":libraries:tools:abi-comparator"))
     testApi(project(":compiler:tests-mutes:mutes-junit5"))
+    testApi(project(":kotlin-main-kts"))
+    testApi(project(":kotlin-scripting-dependencies-maven"))
 
     /*
      * Actually those dependencies are needed only at runtime, but they
