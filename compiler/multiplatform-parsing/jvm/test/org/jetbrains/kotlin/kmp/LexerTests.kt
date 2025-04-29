@@ -54,7 +54,7 @@ class LexerTests {
             checkLexerOnKotlinCode(data, path)
             filesCounter++
         }
-        println("Number of tested files: $filesCounter") // It should print around 30K
+        println("Number of tested files: $filesCounter") // It should print more than 31K
     }
 
     private fun checkLexerOnKotlinCode(kotlinCodeSample: String, path: Path? = null) {
