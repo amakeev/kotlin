@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
+import org.jetbrains.kotlin.fir.symbols.impl.FirConstructorSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirPropertySymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
@@ -89,6 +90,12 @@ object FirOptInUsageBaseChecker {
         lazyResolveToPhase(FirResolvePhase.BODY_RESOLVE)
         @OptIn(SymbolInternals::class)
         return fir.loadExperimentalityForMarkerAnnotation(session, annotatedOwnerClassName)
+    }
+
+    fun FirConstructorSymbol.loadExperimentalitiesFromConstructor(context: CheckerContext): Set<Experimentality> {
+        val result = mutableSetOf<Experimentality>()
+        loadExperimentalitiesFromAnnotationTo(context.session, result)
+        return result
     }
 
     fun FirBasedSymbol<*>.loadExperimentalitiesFromAnnotationTo(session: FirSession, result: MutableCollection<Experimentality>) {
