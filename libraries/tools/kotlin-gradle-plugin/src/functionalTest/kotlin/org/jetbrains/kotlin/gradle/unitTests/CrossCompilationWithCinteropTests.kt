@@ -15,49 +15,71 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.util.*
 import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.HostManager
+import org.jetbrains.kotlin.konan.target.KonanTarget
 import org.junit.Assume
 import org.junit.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class CrossCompilationWithCinteropTests {
 
     @Test
-    fun `cross compilation with macOS cinterop on Windows or Linux host`() {
-        Assume.assumeTrue("Run on unsupported hosts (Windows/Linux)", HostManager.hostIsMingw || HostManager.hostIsLinux)
-
+    fun `cross compilation with cinterops`() {
         val project = buildProjectWithMPP {
             kotlin {
                 macosX64()
                 linuxX64()
                 mingwX64()
 
-                addDummyCinterop { it.konanTarget.family.isAppleFamily }
+                addDummyCinterop { it.konanTarget == KonanTarget.MACOS_X64 }
+                addDummyCinterop { it.konanTarget == KonanTarget.LINUX_X64 }
+                addDummyCinterop { it.konanTarget == KonanTarget.MINGW_X64 }
             }
         }.evaluate()
 
-        project.assertContainsDiagnostic(KotlinToolingDiagnostics.CrossCompilationWithCinterops)
+        val compileKotlinMacosX64 = project.tasks.findByName("compileKotlinMacosX64")
+        val compileKotlinMingwX64 = project.tasks.findByName("compileKotlinMingwX64")
+        val compileKotlinLinuxX64 = project.tasks.findByName("compileKotlinLinuxX64")
+
+        val cinteropDummyMacosX64 = project.tasks.findByName("cinteropDummyMacosX64")
+        val cinteropDummyLinuxX64 = project.tasks.findByName("cinteropDummyLinuxX64")
+        val cinteropDummyMingwX64 = project.tasks.findByName("cinteropDummyMingwX64")
+
+        assertNotNull(compileKotlinMingwX64, "compileKotlinMingwX64 task should be present")
+        assertNotNull(compileKotlinLinuxX64, "compileKotlinLinuxX64 task should be present")
+        assertNotNull(cinteropDummyMingwX64, "cinteropDummyMingwX64 task should be present")
+        assertNotNull(cinteropDummyLinuxX64, "cinteropDummyLinuxX64 task should be present")
+
+        if (HostManager.hostIsMac) {
+            assertNotNull(compileKotlinMacosX64, "compileKotlinMacosX64 task should be present")
+            assertNotNull(cinteropDummyMacosX64, "cinteropDummyMacosX64 task should be present")
+        } else {
+            assertNull(compileKotlinMacosX64, "compileKotlinMacosX64 task should not be present")
+            assertNull(cinteropDummyMacosX64, "cinteropDummyMacosX64 task should not be present")
+        }
     }
 
     @Test
-    fun `cross compilation with macOS cinterop on macOS host`() {
-        Assume.assumeTrue("Run on supported macOS host", HostManager.hostIsMac)
-
+    fun `cross compilation without cinterops`() {
         val project = buildProjectWithMPP {
             kotlin {
                 macosX64()
                 linuxX64()
                 mingwX64()
-
-                addDummyCinterop { it.konanTarget.family.isAppleFamily }
             }
         }.evaluate()
 
-        project.assertNoDiagnostics(KotlinToolingDiagnostics.CrossCompilationWithCinterops)
+        val compileKotlinMacosX64 = project.tasks.findByName("compileKotlinMacosX64")
+        val compileKotlinMingwX64 = project.tasks.findByName("compileKotlinMingwX64")
+        val compileKotlinLinuxX64 = project.tasks.findByName("compileKotlinLinuxX64")
+
+        assertNotNull(compileKotlinMingwX64, "compileKotlinMingwX64 task should be present")
+        assertNotNull(compileKotlinLinuxX64, "compileKotlinLinuxX64 task should be present")
+        assertNotNull(compileKotlinMacosX64, "compileKotlinMacosX64 task should be present")
     }
 
     @Test
-    fun `cross compilation disabled with macOS cinterop on Windows or Linux host`() {
-        Assume.assumeTrue("Run on unsupported hosts (Windows/Linux)", HostManager.hostIsMingw || HostManager.hostIsLinux)
-
+    fun `cross compilation disabled without cinterops`() {
         val project = buildProject {
             propertiesExtension.set(KOTLIN_NATIVE_DISABLE_KLIBS_CROSSCOMPILATION, "true")
             applyMultiplatformPlugin()
@@ -65,12 +87,21 @@ class CrossCompilationWithCinteropTests {
                 macosX64()
                 linuxX64()
                 mingwX64()
-
-                addDummyCinterop { it.konanTarget.family == Family.LINUX }
             }
         }.evaluate()
 
-        project.assertNoDiagnostics(KotlinToolingDiagnostics.CrossCompilationWithCinterops)
+        val compileKotlinMacosX64 = project.tasks.findByName("compileKotlinMacosX64")
+        val compileKotlinMingwX64 = project.tasks.findByName("compileKotlinMingwX64")
+        val compileKotlinLinuxX64 = project.tasks.findByName("compileKotlinLinuxX64")
+
+        assertNotNull(compileKotlinMingwX64, "compileKotlinMingwX64 task should be present")
+        assertNotNull(compileKotlinLinuxX64, "compileKotlinLinuxX64 task should be present")
+
+        if (HostManager.hostIsMac) {
+            assertNotNull(compileKotlinMacosX64, "compileKotlinMacosX64 task should be present")
+        } else {
+            assertNull(compileKotlinMacosX64, "compileKotlinMacosX64 task should not be present")
+        }
     }
 }
 
