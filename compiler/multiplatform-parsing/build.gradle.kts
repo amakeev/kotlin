@@ -67,41 +67,43 @@ dependencies {
     }
 }
 
-generatedSourcesTask(
-    taskName = "generateKotlinLexer",
-    generatorClasspath = flexGeneratorClasspath,
-    generatorRoot = "compiler/multiplatform-parsing/common/src",
-    generatorMainClass = "jflex.Main",
-    argsProvider = { generationRoot ->
-        val lexerDir = projectDir.resolve("common/src/org/jetbrains/kotlin/kmp/lexer")
+for (lexerName in listOf("Kotlin", "KDoc")) {
+    generatedSourcesTask(
+        taskName = "generate${lexerName}Lexer",
+        generatorClasspath = flexGeneratorClasspath,
+        generatorRoot = "compiler/multiplatform-parsing/common/src",
+        generatorMainClass = "jflex.Main",
+        argsProvider = { generationRoot ->
+            val lexerDir = projectDir.resolve("common/src/org/jetbrains/kotlin/kmp/lexer")
 
-        // TODO: KT-77206 (Get rid of the skeleton downloading or use JFlex version instead of the commit hash).
-        // The usage of permalink is confusing and might be not reliable.
-        // It's blocked by https://github.com/JetBrains/intellij-deps-jflex/issues/9
-        val skeletonVersion = "9fca651b6dc684ac340b45f5abf71cac6856aa45"
-        val skeletonFile = layout.buildDirectory.file("idea-flex-kotlin-$skeletonVersion.skeleton").get().asFile
+            // TODO: KT-77206 (Get rid of the skeleton downloading or use JFlex version instead of the commit hash).
+            // The usage of permalink is confusing and might be not reliable.
+            // It's blocked by https://github.com/JetBrains/intellij-deps-jflex/issues/9
+            val skeletonVersion = "9fca651b6dc684ac340b45f5abf71cac6856aa45"
+            val skeletonFile = layout.buildDirectory.file("idea-flex-kotlin-$skeletonVersion.skeleton").get().asFile
 
-        doFirst {
-            val skeletonUrl =
-                "https://raw.githubusercontent.com/JetBrains/intellij-community/$skeletonVersion/tools/lexer/idea-flex-kotlin.skeleton"
-            println("Downloading skeleton file $skeletonUrl")
-            URI.create(skeletonUrl).toURL().openStream().use { input ->
-                skeletonFile.outputStream().use { output ->
-                    input.copyTo(output)
+            doFirst {
+                val skeletonUrl =
+                    "https://raw.githubusercontent.com/JetBrains/intellij-community/$skeletonVersion/tools/lexer/idea-flex-kotlin.skeleton"
+                println("Downloading skeleton file $skeletonUrl")
+                URI.create(skeletonUrl).toURL().openStream().use { input ->
+                    skeletonFile.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
                 }
             }
-        }
 
-        listOf(
-            lexerDir.resolve("Kotlin.flex").absolutePath,
-            "-skel",
-            skeletonFile.absolutePath,
-            "-d",
-            generationRoot.asFile.absolutePath,
-            "--output-mode",
-            "kotlin",
-            "--nobak", // Prevent generating backup `.kt~` files
-        )
-    },
-    commonSourceSet = true,
-)
+            listOf(
+                lexerDir.resolve("$lexerName.flex").absolutePath,
+                "-skel",
+                skeletonFile.absolutePath,
+                "-d",
+                generationRoot.asFile.absolutePath,
+                "--output-mode",
+                "kotlin",
+                "--nobak", // Prevent generating backup `.kt~` files
+            )
+        },
+        commonSourceSet = true,
+    )
+}
