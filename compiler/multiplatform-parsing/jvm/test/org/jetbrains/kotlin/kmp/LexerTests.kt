@@ -40,6 +40,7 @@ class LexerTests {
              * @return [Exception]
              */
             fun test(p: String) {
+                val badCharacter = 2^
                 throw Exception()
             }
         """.trimIndent()
@@ -110,13 +111,22 @@ class LexerTests {
             WHITE_SPACE [125..126)
             LBRACE [126..127)
             WHITE_SPACE [127..132)
-            throw [132..137)
-            WHITE_SPACE [137..138)
-            IDENTIFIER [138..147)
-            LPAR [147..148)
-            RPAR [148..149)
-            WHITE_SPACE [149..150)
-            RBRACE [150..151)
+            val [132..135)
+            WHITE_SPACE [135..136)
+            IDENTIFIER [136..148)
+            WHITE_SPACE [148..149)
+            EQ [149..150)
+            WHITE_SPACE [150..151)
+            INTEGER_LITERAL [151..152)
+            BAD_CHARACTER [152..153)
+            WHITE_SPACE [153..158)
+            throw [158..163)
+            WHITE_SPACE [163..164)
+            IDENTIFIER [164..173)
+            LPAR [173..174)
+            RPAR [174..175)
+            WHITE_SPACE [175..176)
+            RBRACE [176..177)
 
         """.trimIndent(), lexer.tokenize(kotlinCodeSample).dump())
     }
