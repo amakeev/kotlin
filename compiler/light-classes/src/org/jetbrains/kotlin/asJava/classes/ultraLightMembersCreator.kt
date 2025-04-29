@@ -258,7 +258,7 @@ internal class UltraLightMembersCreator(
         }
 
         if (ktDeclaration is KtNamedFunction &&
-            ktDeclaration.hasBlockBody() &&
+            !ktDeclaration.hasExpressionBody() &&
             !ktDeclaration.hasDeclaredReturnType()
         ) return PsiTypes.voidType()
 

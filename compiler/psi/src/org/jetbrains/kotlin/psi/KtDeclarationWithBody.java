@@ -42,8 +42,30 @@ public interface KtDeclarationWithBody extends KtDeclaration {
         return getContractDescription() != null;
     }
 
+    /**
+     * @return whether the declaration has an expression body.
+     *
+     * @see #hasBody()
+     * @see #hasBlockBody()
+     */
+    default boolean hasExpressionBody() {
+        return hasBody() && !hasBlockBody();
+    }
+
+    /**
+     * @return whether the declaration has a block body.
+     *
+     * @see #hasBody()
+     * @see #hasExpressionBody()
+     */
     boolean hasBlockBody();
 
+    /**
+     * @return whether the declaration has a body (expression or block).
+     *
+     * @see #hasBlockBody()
+     * @see #hasExpressionBody()
+     */
     boolean hasBody();
 
     boolean hasDeclaredReturnType();
@@ -51,6 +73,10 @@ public interface KtDeclarationWithBody extends KtDeclaration {
     @NotNull
     List<KtParameter> getValueParameters();
 
+    /**
+     * @return the body expression as a {@code KtBlockExpression}, or {@code null} if the body expression
+     *         is not present or is not a block expression.
+     */
     @Nullable
     default KtBlockExpression getBodyBlockExpression() {
         KtExpression bodyExpression = getBodyExpression();

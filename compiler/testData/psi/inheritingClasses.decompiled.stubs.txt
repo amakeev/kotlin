@@ -59,7 +59,7 @@ PsiJetFileStubImpl[package=a]
                 USER_TYPE
                   REFERENCE_EXPRESSION[referencedName=kotlin]
                 REFERENCE_EXPRESSION[referencedName=Int]
-          FUN[fqName=a.InheritingClasses.A.af, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=af]
+          FUN[fqName=a.InheritingClasses.A.af, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=af]
             MODIFIER_LIST[abstract public]
             VALUE_PARAMETER_LIST
             TYPE_REFERENCE

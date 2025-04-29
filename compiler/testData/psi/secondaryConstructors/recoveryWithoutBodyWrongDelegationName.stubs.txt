@@ -11,7 +11,7 @@ PsiJetFileStubImpl[package=]
             REFERENCE_EXPRESSION[referencedName=Int]
       SECONDARY_CONSTRUCTOR[fqName=null, hasBody=false, isDelegatedCallToThis=false, isExplicitDelegationCall=true, isExtension=false, isTopLevel=false, name=A]
         VALUE_PARAMETER_LIST
-      FUN[fqName=A.foo, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=foo]
+      FUN[fqName=A.foo, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=foo]
         MODIFIER_LIST[]
           ANNOTATION_ENTRY[hasValueArguments=false, shortName=ann]
             CONSTRUCTOR_CALLEE

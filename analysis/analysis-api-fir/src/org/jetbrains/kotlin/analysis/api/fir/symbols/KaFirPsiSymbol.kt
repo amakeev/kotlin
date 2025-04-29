@@ -295,7 +295,7 @@ internal fun KaFirKtBasedSymbol<KtTypeParameterListOwner, *>.createKaTypeParamet
 
 internal fun KaFirKtBasedSymbol<KtDeclarationWithBody, FirCallableSymbol<*>>.createReturnType(): KaType {
     val backingPsi = backingPsi
-    if (backingPsi?.hasBlockBody() == true && !backingPsi.hasDeclaredReturnType()) {
+    if (backingPsi?.hasExpressionBody() == false && !backingPsi.hasDeclaredReturnType()) {
         return analysisSession.builtinTypes.unit
     }
 

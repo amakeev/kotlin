@@ -438,13 +438,10 @@ psi/KtDeclarationStub.java:KtDeclarationStub:getModificationStamp()
 psi/KtDeclarationStub.java:abstract KtDeclarationStub
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:@NotNull getValueParameters()
-psi/KtDeclarationWithBody.java:KtDeclarationWithBody:@Nullable default getBodyBlockExpression()
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:@Nullable default getContractDescription()
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:@Nullable getBodyExpression()
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:@Nullable getEqualsToken()
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:default hasContractEffectList()
-psi/KtDeclarationWithBody.java:KtDeclarationWithBody:hasBlockBody()
-psi/KtDeclarationWithBody.java:KtDeclarationWithBody:hasBody()
 psi/KtDeclarationWithBody.java:KtDeclarationWithBody:hasDeclaredReturnType()
 psi/KtDeclarationWithInitializer.java:KtDeclarationWithInitializer
 psi/KtDeclarationWithInitializer.java:KtDeclarationWithInitializer:@Nullable getInitializer()

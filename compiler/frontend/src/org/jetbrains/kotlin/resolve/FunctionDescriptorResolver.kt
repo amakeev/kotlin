@@ -160,12 +160,12 @@ class FunctionDescriptorResolver(
         }
 
         val inferredReturnType = when {
-            function.hasBlockBody() ->
-                builtIns.unitType
-            function.hasBody() ->
+            function.hasExpressionBody() ->
                 descriptorResolver.inferReturnTypeFromExpressionBody(
                     trace, scope, dataFlowInfo, function, functionDescriptor, inferenceSession
                 )
+            function.hasBlockBody() ->
+                builtIns.unitType
             else ->
                 ErrorUtils.createErrorType(ErrorTypeKind.RETURN_TYPE, functionDescriptor.name.asString())
         }

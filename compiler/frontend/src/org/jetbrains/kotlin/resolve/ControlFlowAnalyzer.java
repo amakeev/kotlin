@@ -73,7 +73,7 @@ public class ControlFlowAnalyzer {
         for (Map.Entry<KtNamedFunction, SimpleFunctionDescriptor> entry : c.getFunctions().entrySet()) {
             KtNamedFunction function = entry.getKey();
             SimpleFunctionDescriptor functionDescriptor = entry.getValue();
-            KotlinType expectedReturnType = !function.hasBlockBody() && !function.hasDeclaredReturnType()
+            KotlinType expectedReturnType = function.hasExpressionBody() && !function.hasDeclaredReturnType()
                                                ? NO_EXPECTED_TYPE
                                                : functionDescriptor.getReturnType();
             checkFunction(c, function, expectedReturnType);

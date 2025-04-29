@@ -39,7 +39,7 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
           MODIFIER_LIST[]
             ANNOTATION_ENTRY[hasValueArguments=false, shortName=Anno]
               CONSTRUCTOR_CALLEE
@@ -50,7 +50,7 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[private]
       PROPERTY[fqName=Foo.extensionProperty, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=true, isTopLevel=false, isVar=false, name=extensionProperty]
         TYPE_REFERENCE

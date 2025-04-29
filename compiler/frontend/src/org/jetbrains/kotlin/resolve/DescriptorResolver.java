@@ -1283,8 +1283,7 @@ public class DescriptorResolver {
         // infer the correct type for the getter but leave the error type for the property.
         // This is useful for an IDE quick fix which would add the type to the property
         KtProperty property = getter.getProperty();
-        if (!property.hasDelegateExpressionOrInitializer() && property.getTypeReference() == null &&
-            getter.hasBody() && !getter.hasBlockBody()) {
+        if (!property.hasDelegateExpressionOrInitializer() && property.getTypeReference() == null && getter.hasExpressionBody()) {
             return inferReturnTypeFromExpressionBody(trace, scope, DataFlowInfoFactory.EMPTY, getter, getterDescriptor, inferenceSession);
         }
 

@@ -211,14 +211,15 @@ private class FunctionClsStubBuilder(
         // As functions are never decompiled to fun f() = 1 form, hasBlockBody is always true
         // This info is anyway irrelevant for the purposes these stubs are used
         val hasContract = functionProto.hasContract()
+        val hasBody = Flags.MODALITY.get(functionProto.flags) != Modality.ABSTRACT
         return KotlinFunctionStubImpl(
             parent,
             callableName.ref(),
             isTopLevel,
             c.containerFqName.child(callableName),
             isExtension = functionProto.hasReceiver(),
-            hasBlockBody = true,
-            hasBody = Flags.MODALITY.get(functionProto.flags) != Modality.ABSTRACT,
+            hasBlockBody = hasBody,
+            hasBody = hasBody,
             hasTypeParameterListBeforeFunctionName = functionProto.typeParameterList.isNotEmpty(),
             mayHaveContract = hasContract,
             runIf(hasContract) {
@@ -309,15 +310,25 @@ private class PropertyClsStubBuilder(
         if (Flags.HAS_GETTER[flags] && propertyProto.hasGetterFlags()) {
             val getterFlags = propertyProto.getterFlags
             if (Flags.IS_NOT_DEFAULT.get(getterFlags)) {
+                val getterStub = KotlinPropertyAccessorStubImpl(
+                    /* parent = */ callableStub,
+                    /* isGetter = */ true,
+                    /* hasBody = */ true,
+                    /* hasBlockBody = */ true,
+                )
+
                 createModifierListAndAnnotationStubsForAccessor(
-                    KotlinPropertyAccessorStubImpl(
-                        /* parent = */ callableStub,
-                        /* isGetter = */ true,
-                        /* hasBody = */ false,
-                        /* hasBlockBody = */ true,
-                    ),
+                    getterStub,
                     flags = getterFlags,
                     callableKind = AnnotatedCallableKind.PROPERTY_GETTER
+                )
+
+                typeStubBuilder.createValueParameterListStub(
+                    getterStub,
+                    propertyProto,
+                    emptyList(),
+                    protoContainer,
+                    AnnotatedCallableKind.PROPERTY_GETTER,
                 )
             }
         }
@@ -331,20 +342,20 @@ private class PropertyClsStubBuilder(
                     /* hasBody = */ true,
                     /* hasBlockBody = */ true,
                 )
+
                 createModifierListAndAnnotationStubsForAccessor(
                     setterStub,
                     flags = setterFlags,
                     callableKind = AnnotatedCallableKind.PROPERTY_SETTER
                 )
-                if (propertyProto.hasSetterValueParameter()) {
-                    typeStubBuilder.createValueParameterListStub(
-                        setterStub,
-                        propertyProto,
-                        listOf(propertyProto.setterValueParameter),
-                        protoContainer,
-                        AnnotatedCallableKind.PROPERTY_SETTER
-                    )
-                }
+
+                typeStubBuilder.createValueParameterListStub(
+                    setterStub,
+                    propertyProto,
+                    listOfNotNull(propertyProto.setterValueParameter),
+                    protoContainer,
+                    AnnotatedCallableKind.PROPERTY_SETTER,
+                )
             }
         }
     }

@@ -880,7 +880,7 @@ public class ControlStructureTypingVisitor extends ExpressionTypingVisitor {
             KtFunction ktFunction = (KtFunction) function;
             expectedType = context.trace.get(EXPECTED_RETURN_TYPE, ktFunction);
 
-            if ((expectedType == null) && (ktFunction.getTypeReference() != null || ktFunction.hasBlockBody())) {
+            if ((expectedType == null) && (ktFunction.getTypeReference() != null || !ktFunction.hasExpressionBody())) {
                 expectedType = descriptor.getReturnType();
             }
         }

@@ -10,7 +10,7 @@ PsiJetFileStubImpl[package=]
         VALUE_PARAMETER_LIST
       PROPERTY[fqName=A.<no name provided>, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=false, name=null]
         MODIFIER_LIST[private]
-      FUN[fqName=A.foo2, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=foo2]
+      FUN[fqName=A.foo2, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=foo2]
         MODIFIER_LIST[abstract private inline]
         VALUE_PARAMETER_LIST
       PROPERTY[fqName=A.<no name provided>, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=false, name=null]

@@ -27,9 +27,9 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[data inline]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
           MODIFIER_LIST[noinline]
       PROPERTY[fqName=A.y, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=false, name=y]
         TYPE_REFERENCE
@@ -49,15 +49,15 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Double]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
           MODIFIER_LIST[inline]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[noinline]
       PROPERTY[fqName=A.z0, hasDelegate=false, hasDelegateExpression=false, hasInitializer=true, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=false, name=z0]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Double]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
           MODIFIER_LIST[inline]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[noinline]

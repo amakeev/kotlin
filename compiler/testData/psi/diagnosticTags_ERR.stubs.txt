@@ -10,7 +10,7 @@ PsiJetFileStubImpl[package=]
             REFERENCE_EXPRESSION[referencedName=Unit]
   CLASS[classId=/SAM, fqName=SAM, isClsStubCompiledToJvmDefaultImplementation=false, isEnumEntry=false, isInterface=true, isLocal=false, isTopLevel=true, name=SAM, superNames=[]]
     CLASS_BODY
-      FUN[fqName=SAM.run, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=run]
+      FUN[fqName=SAM.run, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=run]
         VALUE_PARAMETER_LIST
   TYPEALIAS[classId=/Test1, fqName=Test1, isTopLevel=true, name=Test1]
     TYPE_REFERENCE

@@ -17,7 +17,7 @@ PsiJetFileStubImpl[package=]
             REFERENCE_EXPRESSION[referencedName=Int]
         PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=true, isGetter=true]
           VALUE_PARAMETER_LIST
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
       PROPERTY[fqName=Foo.b1, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=b1]
         TYPE_REFERENCE
           USER_TYPE
@@ -31,7 +31,7 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
       CLASS_INITIALIZER
       PROPERTY[fqName=Foo.b3, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=false, name=b3]
         TYPE_REFERENCE
@@ -43,21 +43,21 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
       CLASS_INITIALIZER
       PROPERTY[fqName=Foo.b5, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=b5]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[abstract]
       PROPERTY[fqName=Foo.b6, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=b6]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[abstract]
             ANNOTATION
               ANNOTATION_ENTRY[hasValueArguments=false, shortName=a]
@@ -69,14 +69,14 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
       FUN[fqName=Foo.<no name provided>, hasBlockBody=true, hasBody=true, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=null]
       PROPERTY[fqName=Foo.b8, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=b8]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[abstract]
             ANNOTATION_ENTRY[hasValueArguments=false, shortName=a]
               CONSTRUCTOR_CALLEE
@@ -87,7 +87,7 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
       FUN[fqName=Foo.<no name provided>, hasBlockBody=true, hasBody=true, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=null]
   CLASS[classId=/PublicVar, fqName=PublicVar, isClsStubCompiledToJvmDefaultImplementation=false, isEnumEntry=false, isInterface=false, isLocal=false, isTopLevel=true, name=PublicVar, superNames=[]]
     PRIMARY_CONSTRUCTOR[fqName=null, hasBody=false, isDelegatedCallToThis=false, isExplicitDelegationCall=false, isExtension=false, isTopLevel=false, name=PublicVar]
@@ -117,16 +117,16 @@ PsiJetFileStubImpl[package=]
     CLASS_BODY
       PROPERTY[fqName=PublicVar.foo, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=true, name=foo]
         MODIFIER_LIST[public]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
   CLASS[classId=/PublicVar, fqName=PublicVar, isClsStubCompiledToJvmDefaultImplementation=false, isEnumEntry=false, isInterface=false, isLocal=false, isTopLevel=true, name=PublicVar, superNames=[]]
     PRIMARY_CONSTRUCTOR[fqName=null, hasBody=false, isDelegatedCallToThis=false, isExplicitDelegationCall=false, isExtension=false, isTopLevel=false, name=PublicVar]
       VALUE_PARAMETER_LIST
     CLASS_BODY
       PROPERTY[fqName=PublicVar.foo, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=true, name=foo]
         MODIFIER_LIST[public]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
   PROPERTY[fqName=now, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=true, isVar=false, name=now]
     TYPE_REFERENCE
       USER_TYPE

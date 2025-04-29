@@ -46,7 +46,7 @@ PsiJetFileStubImpl[package=]
                             REFERENCE_EXPRESSION[referencedName=A]
                   USER_TYPE
                     REFERENCE_EXPRESSION[referencedName=C]
-  FUN[fqName=returnValue, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnValue]
+  FUN[fqName=returnValue, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnValue]
     VALUE_PARAMETER_LIST
     TYPE_REFERENCE
       MODIFIER_LIST[]
@@ -57,7 +57,7 @@ PsiJetFileStubImpl[package=]
                 REFERENCE_EXPRESSION[referencedName=A]
       USER_TYPE
         REFERENCE_EXPRESSION[referencedName=C]
-  FUN[fqName=returnTypeParameterValue, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=true, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnTypeParameterValue]
+  FUN[fqName=returnTypeParameterValue, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=true, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnTypeParameterValue]
     TYPE_PARAMETER_LIST
       TYPE_PARAMETER[fqName=null, isInVariance=false, isOutVariance=false, name=T]
     VALUE_PARAMETER_LIST
@@ -70,7 +70,7 @@ PsiJetFileStubImpl[package=]
                 REFERENCE_EXPRESSION[referencedName=A]
       USER_TYPE
         REFERENCE_EXPRESSION[referencedName=T]
-  FUN[fqName=returnArgument, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnArgument]
+  FUN[fqName=returnArgument, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=returnArgument]
     VALUE_PARAMETER_LIST
     TYPE_REFERENCE
       USER_TYPE

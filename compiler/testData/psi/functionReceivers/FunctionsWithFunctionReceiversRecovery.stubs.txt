@@ -25,7 +25,7 @@ PsiJetFileStubImpl[package=]
         TYPE_REFERENCE
           USER_TYPE
             REFERENCE_EXPRESSION[referencedName=G]
-  FUN[fqName=foo, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=foo]
+  FUN[fqName=foo, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=foo]
     TYPE_REFERENCE
       FUNCTION_TYPE
         VALUE_PARAMETER_LIST
@@ -118,8 +118,8 @@ PsiJetFileStubImpl[package=]
                         REFERENCE_EXPRESSION[referencedName=E]
         TYPE_REFERENCE
     VALUE_PARAMETER_LIST
-  FUN[fqName=<no name provided>, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=null]
-  FUN[fqName=<no name provided>, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=null]
+  FUN[fqName=<no name provided>, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=true, mayHaveContract=false, name=null]
+  FUN[fqName=<no name provided>, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=null]
     TYPE_REFERENCE
       MODIFIER_LIST[]
         ANNOTATION
@@ -145,7 +145,7 @@ PsiJetFileStubImpl[package=]
                 TYPE_REFERENCE
                   USER_TYPE
                     REFERENCE_EXPRESSION[referencedName=B]
-  FUN[fqName=<no name provided>, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=null]
+  FUN[fqName=<no name provided>, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=null]
     TYPE_REFERENCE
       MODIFIER_LIST[]
         ANNOTATION
@@ -180,7 +180,7 @@ PsiJetFileStubImpl[package=]
                                 REFERENCE_EXPRESSION[referencedName=B]
                 TYPE_REFERENCE
         TYPE_REFERENCE
-  FUN[fqName=foo, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=foo]
+  FUN[fqName=foo, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=true, isTopLevel=true, mayHaveContract=false, name=foo]
     TYPE_REFERENCE
       FUNCTION_TYPE
         VALUE_PARAMETER_LIST

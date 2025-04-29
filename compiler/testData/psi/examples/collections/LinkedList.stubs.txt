@@ -44,8 +44,8 @@ PsiJetFileStubImpl[package=]
             REFERENCE_EXPRESSION[referencedName=Item]
       PROPERTY[fqName=LinkedList.size, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=true, name=size]
         MODIFIER_LIST[override]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=false]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=false, hasBody=false, isGetter=false]
           MODIFIER_LIST[private]
       FUN[fqName=LinkedList.add, hasBlockBody=true, hasBody=true, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=add]
         MODIFIER_LIST[override]
@@ -96,7 +96,7 @@ PsiJetFileStubImpl[package=]
             TYPE_REFERENCE
               USER_TYPE
                 REFERENCE_EXPRESSION[referencedName=Int]
-      FUN[fqName=LinkedList.mutableIterator, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=mutableIterator]
+      FUN[fqName=LinkedList.mutableIterator, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=mutableIterator]
         MODIFIER_LIST[override]
         VALUE_PARAMETER_LIST
         TYPE_REFERENCE

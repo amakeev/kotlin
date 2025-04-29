@@ -207,7 +207,7 @@ internal class KaFirExpressionTypeProvider(
         }
 
         fun KtDeclaration.isEmptyFunction() =
-            this is KtNamedFunction && hasBlockBody() && bodyBlockExpression?.statements?.isEmpty() == true
+            this is KtNamedFunction && !hasExpressionBody() && bodyBlockExpression?.statements?.isEmpty() == true
 
         if (this !is KtNamedFunction && this !is KtProperty && !isPropertyGetter()) return null
         if (hasDeclaredReturnType()) return null

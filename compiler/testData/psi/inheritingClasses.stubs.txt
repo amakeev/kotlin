@@ -22,7 +22,7 @@ PsiJetFileStubImpl[package=a]
           FUN[fqName=a.InheritingClasses.A.of, hasBlockBody=false, hasBody=true, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=of]
             MODIFIER_LIST[open]
             VALUE_PARAMETER_LIST
-          FUN[fqName=a.InheritingClasses.A.af, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=af]
+          FUN[fqName=a.InheritingClasses.A.af, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=af]
             MODIFIER_LIST[abstract]
             VALUE_PARAMETER_LIST
             TYPE_REFERENCE

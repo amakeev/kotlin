@@ -151,7 +151,7 @@ public class ExpressionTypingServices {
     ) {
         if (expectedReturnType == null) {
             expectedReturnType = functionDescriptor.getReturnType();
-            if (!function.hasBlockBody() && !function.hasDeclaredReturnType()) {
+            if (function.hasExpressionBody() && !function.hasDeclaredReturnType()) {
                 expectedReturnType = NO_EXPECTED_TYPE;
             }
         }
@@ -237,7 +237,7 @@ public class ExpressionTypingServices {
 
         KotlinResolutionCallbacksImpl.LambdaInfo lambdaInfo = getNewInferenceLambdaInfo(context, function);
         context = updateContextFromNILambdaInfo(lambdaInfo, context);
-        KotlinTypeInfo typeInfo = expressionTypingFacade.getTypeInfo(bodyExpression, context, function.hasBlockBody());
+        KotlinTypeInfo typeInfo = expressionTypingFacade.getTypeInfo(bodyExpression, context, !function.hasExpressionBody());
         updateLambdaContextInfoForAnonymousFunction(lambdaInfo, typeInfo, context);
 
         KotlinType type = typeInfo.getType();

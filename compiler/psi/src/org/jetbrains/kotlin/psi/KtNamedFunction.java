@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2024 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -65,7 +65,8 @@ public class KtNamedFunction extends KtTypeParameterListOwnerStub<KotlinFunction
         if (stub != null) {
             return stub.hasBlockBody();
         }
-        return getEqualsToken() == null;
+
+        return getBodyBlockExpression() != null;
     }
 
     @Nullable
@@ -112,7 +113,7 @@ public class KtNamedFunction extends KtTypeParameterListOwnerStub<KotlinFunction
     @Override
     @Nullable
     public KtExpression getBodyExpression() {
-        KotlinFunctionStub stub = getStub();
+        KotlinFunctionStub stub = getGreenStub();
         if (stub != null) {
             if (!stub.hasBody()) {
                 return null;
@@ -129,18 +130,12 @@ public class KtNamedFunction extends KtTypeParameterListOwnerStub<KotlinFunction
     @Nullable
     @Override
     public KtBlockExpression getBodyBlockExpression() {
-        KotlinFunctionStub stub = getStub();
-        if (stub != null) {
-            if (!(stub.hasBlockBody() && stub.hasBody())) {
-                return null;
-            }
-            if (getContainingKtFile().isCompiled()) {
-                //don't load ast
-                return null;
-            }
+        KotlinFunctionStub stub = getGreenStub();
+        if (stub != null && !stub.hasBlockBody()) {
+            return null;
         }
 
-        KtExpression bodyExpression = findChildByClass(KtExpression.class);
+        KtExpression bodyExpression = getBodyExpression();
         if (bodyExpression instanceof KtBlockExpression) {
             return (KtBlockExpression) bodyExpression;
         }

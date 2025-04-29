@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2024 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -75,7 +75,7 @@ public class KtPropertyAccessor extends KtDeclarationStub<KotlinPropertyAccessor
     @Nullable
     @Override
     public KtExpression getBodyExpression() {
-        KotlinPropertyAccessorStub stub = getStub();
+        KotlinPropertyAccessorStub stub = getGreenStub();
         if (stub != null) {
             if (!stub.hasBody()) {
                 return null;
@@ -92,17 +92,12 @@ public class KtPropertyAccessor extends KtDeclarationStub<KotlinPropertyAccessor
     @Nullable
     @Override
     public KtBlockExpression getBodyBlockExpression() {
-        KotlinPropertyAccessorStub stub = getStub();
-        if (stub != null) {
-            if (!(stub.hasBlockBody() && stub.hasBody())) {
-                return null;
-            }
-            if (getContainingKtFile().isCompiled()) {
-                return null;
-            }
+        KotlinPropertyAccessorStub stub = getGreenStub();
+        if (stub != null && !stub.hasBlockBody()) {
+            return null;
         }
 
-        KtExpression bodyExpression = findChildByClass(KtExpression.class);
+        KtExpression bodyExpression = getBodyExpression();
         if (bodyExpression instanceof KtBlockExpression) {
             return (KtBlockExpression) bodyExpression;
         }
@@ -116,7 +111,7 @@ public class KtPropertyAccessor extends KtDeclarationStub<KotlinPropertyAccessor
         if (stub != null) {
             return stub.hasBlockBody();
         }
-        return getEqualsToken() == null;
+        return getBodyBlockExpression() != null;
     }
 
     @Override

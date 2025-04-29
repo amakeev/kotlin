@@ -97,7 +97,7 @@ internal class FunctionsTypingVisitor(facade: ExpressionTypingInternals) : Expre
 
         val functionInnerScope =
             FunctionDescriptorUtil.getFunctionInnerScope(context.scope, functionDescriptor, context.trace, components.overloadChecker)
-        if (!function.hasDeclaredReturnType() && !function.hasBlockBody()) {
+        if (!function.hasDeclaredReturnType() && function.hasExpressionBody()) {
             ForceResolveUtil.forceResolveAllContents(functionDescriptor.returnType)
         } else {
             components.expressionTypingServices.checkFunctionReturnType(

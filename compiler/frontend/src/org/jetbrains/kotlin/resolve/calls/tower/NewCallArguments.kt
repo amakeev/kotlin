@@ -261,7 +261,7 @@ fun processFunctionalExpression(
             val contextReceiversTypes = resolveContextReceiversTypes(outerCallContext, postponedExpression, typeResolver)
             val parametersTypes = resolveParametersTypes(outerCallContext, postponedExpression, typeResolver) ?: emptyArray()
             val returnType = resolveType(outerCallContext, postponedExpression.typeReference, typeResolver)
-                ?: if (postponedExpression.hasBlockBody()) builtIns.unitType else null
+                ?: if (!postponedExpression.hasExpressionBody()) builtIns.unitType else null
 
             FunctionExpressionImpl(
                 outerCallContext, valueArgument, startDataFlowInfo, argumentName,

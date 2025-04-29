@@ -41,8 +41,9 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
+          VALUE_PARAMETER_LIST
         PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=false]
           MODIFIER_LIST[public final]
           VALUE_PARAMETER_LIST
@@ -59,8 +60,9 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
+          VALUE_PARAMETER_LIST
       PROPERTY[fqName=Foo.customSetter, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=customSetter]
         MODIFIER_LIST[public final]
         TYPE_REFERENCE
@@ -84,8 +86,9 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
+          VALUE_PARAMETER_LIST
       PROPERTY[fqName=Foo.defaultGetterWithAnnotation, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=false, name=defaultGetterWithAnnotation]
         MODIFIER_LIST[public final]
         TYPE_REFERENCE
@@ -93,7 +96,7 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=String]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
             ANNOTATION_ENTRY[hasValueArguments=false, shortName=Anno]
               CONSTRUCTOR_CALLEE
@@ -102,6 +105,7 @@ PsiJetFileStubImpl[package=]
                     USER_TYPE
                       REFERENCE_EXPRESSION[referencedName=Foo]
                     REFERENCE_EXPRESSION[referencedName=Anno]
+          VALUE_PARAMETER_LIST
       PROPERTY[fqName=Foo.defaultSetterWithAnotherVisibility, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=true, name=defaultSetterWithAnotherVisibility]
         MODIFIER_LIST[public final]
         TYPE_REFERENCE
@@ -130,8 +134,9 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
+          VALUE_PARAMETER_LIST
       PROPERTY[fqName=Foo.postponed, hasDelegate=false, hasDelegateExpression=false, hasInitializer=false, hasReturnTypeRef=true, isExtension=false, isTopLevel=false, isVar=false, name=postponed]
         MODIFIER_LIST[public final]
         TYPE_REFERENCE
@@ -139,8 +144,9 @@ PsiJetFileStubImpl[package=]
             USER_TYPE
               REFERENCE_EXPRESSION[referencedName=kotlin]
             REFERENCE_EXPRESSION[referencedName=Int]
-        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=false, isGetter=true]
+        PROPERTY_ACCESSOR[hasBlockBody=true, hasBody=true, isGetter=true]
           MODIFIER_LIST[public final]
+          VALUE_PARAMETER_LIST
       FUN[fqName=Foo.getValue, hasBlockBody=true, hasBody=true, hasTypeParameterListBeforeFunctionName=true, isExtension=true, isTopLevel=false, mayHaveContract=false, name=getValue]
         MODIFIER_LIST[public final operator]
         TYPE_PARAMETER_LIST

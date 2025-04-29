@@ -1990,10 +1990,10 @@ open class PsiRawFirBuilder(
 
             withContainerSymbol(functionSymbol, isLocalFunction) {
                 val typeReference = function.typeReference
-                val returnType = if (function.hasBlockBody()) {
-                    typeReference.toFirOrUnitType()
-                } else {
+                val returnType = if (function.hasExpressionBody()) {
                     typeReference.toFirOrImplicitType()
+                } else {
+                    typeReference.toFirOrUnitType()
                 }
 
                 val receiverTypeCalculator: (() -> FirTypeRef)? = function.receiverTypeReference?.let {
@@ -3040,7 +3040,7 @@ open class PsiRawFirBuilder(
                     is KtCatchClause -> (parent.parent as? KtTryExpression)?.usedAsExpression == true
                     is KtClassInitializer, is KtScriptInitializer, is KtSecondaryConstructor, is KtFunctionLiteral, is KtFinallySection -> false
                     is KtDotQualifiedExpression -> parent.firstChild == this
-                    is KtFunction, is KtPropertyAccessor -> parent.hasBody() && !parent.hasBlockBody()
+                    is KtFunction, is KtPropertyAccessor -> parent.hasExpressionBody()
                     is KtContainerNodeForControlStructureBody -> when (parent.parent.elementType) {
                         KtNodeTypes.FOR, KtNodeTypes.WHILE, KtNodeTypes.DO_WHILE -> false
                         else -> true

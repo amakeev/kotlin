@@ -39,7 +39,7 @@ PsiJetFileStubImpl[package=test]
       FUN[fqName=test.ClassMembers.openFun, hasBlockBody=true, hasBody=true, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=openFun]
         MODIFIER_LIST[open]
         VALUE_PARAMETER_LIST
-      FUN[fqName=test.ClassMembers.abstractFun, hasBlockBody=true, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=abstractFun]
+      FUN[fqName=test.ClassMembers.abstractFun, hasBlockBody=false, hasBody=false, hasTypeParameterListBeforeFunctionName=false, isExtension=false, isTopLevel=false, mayHaveContract=false, name=abstractFun]
         MODIFIER_LIST[abstract]
         VALUE_PARAMETER_LIST
       PROPERTY[fqName=test.ClassMembers.openVal, hasDelegate=false, hasDelegateExpression=false, hasInitializer=true, hasReturnTypeRef=false, isExtension=false, isTopLevel=false, isVar=false, name=openVal]

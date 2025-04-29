@@ -149,8 +149,9 @@ private fun buildDecompiledTextImpl(
                         builder.append(descriptorRenderer.renderAnnotation(annotation))
                         builder.append(" ")
                     }
+
                     if (accessor is PropertyGetterDescriptor) {
-                        builder.append("get")
+                        builder.append("get()")
                     } else if (accessor is PropertySetterDescriptor) {
                         builder.append("set(")
                         val parameterDescriptor = accessor.valueParameters[0]
@@ -162,8 +163,9 @@ private fun buildDecompiledTextImpl(
                         builder.append(parameterName.asString()).append(": ")
                             .append(descriptorRenderer.renderType(parameterDescriptor.type))
                         builder.append(")")
-                        builder.append(" {").append(DECOMPILED_CODE_COMMENT).append(" }")
                     }
+
+                    builder.append(" {").append(DECOMPILED_CODE_COMMENT).append(" }")
                 }
             }
         } else if (descriptor is ClassDescriptor && !isEnumEntry(descriptor)) {
