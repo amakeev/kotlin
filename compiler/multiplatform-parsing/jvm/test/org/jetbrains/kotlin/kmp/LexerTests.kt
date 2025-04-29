@@ -6,9 +6,11 @@
 package org.jetbrains.kotlin.kmp
 
 import org.jetbrains.kotlin.kmp.infra.AbstractLexer
+import org.jetbrains.kotlin.kmp.infra.MultiToken
 import org.jetbrains.kotlin.kmp.infra.NewLexer
 import org.jetbrains.kotlin.kmp.infra.OldLexer
 import org.jetbrains.kotlin.kmp.infra.TestDataUtils
+import org.jetbrains.kotlin.kmp.infra.Token
 import org.jetbrains.kotlin.kmp.infra.dump
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
@@ -127,20 +129,29 @@ class LexerTests {
             assertEquals(oldTokens.dump(), newTokens.dump(), path?.let { "Different tokens on file: $it" })
         }
 
-        if (oldTokens.size != newTokens.size) {
-            failWithDifferentTokens()
-        }
-
-        for (i in oldTokens.indices) {
-            val oldToken = oldTokens[i]
-            val newToken = newTokens[i]
-
-            if (oldToken.name != newToken.name ||
-                oldToken.start != newToken.start ||
-                oldToken.end != newToken.end
-            ) {
+        fun compareTokens(oldTokens: List<Token<*>>, newTokens: List<Token<*>>) {
+            if (oldTokens.size != newTokens.size) {
                 failWithDifferentTokens()
             }
+
+            for (index in oldTokens.indices) {
+                val oldToken = oldTokens[index]
+                val newToken = newTokens[index]
+
+                if (oldToken.name != newToken.name ||
+                    oldToken.start != newToken.start ||
+                    oldToken.end != newToken.end
+                ) {
+                    failWithDifferentTokens()
+                }
+
+                if (oldToken is MultiToken<*>) {
+                    require(newToken is MultiToken<*>)
+                    compareTokens(oldToken.children, newToken.children)
+                }
+            }
         }
+
+        compareTokens(oldTokens, newTokens)
     }
 }
