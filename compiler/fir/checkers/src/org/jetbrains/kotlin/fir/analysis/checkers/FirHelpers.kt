@@ -1060,7 +1060,7 @@ fun reportAtomicToPrimitiveProblematicAccess(
     val expanded = type.fullyExpandedType(context.session)
     val argument = expanded.typeArguments.firstOrNull()?.type ?: return
 
-    if (argument.isPrimitive || argument.isValueClass(context.session)) {
+    if (argument.isPrimitiveOrNullablePrimitive || argument.isValueClass(context.session)) {
         val candidate = appropriateCandidatesForArgument[argument.classId]
         reporter.reportOn(source, FirErrors.ATOMIC_REF_WITHOUT_CONSISTENT_IDENTITY, atomicReferenceClassId, argument, candidate, context)
     }
