@@ -305,7 +305,8 @@ fun ConeClassLikeType.valueParameterTypesWithoutReceivers(session: FirSession): 
     // TODO: add requirement
     val expandedType = fullyExpandedType(session)
 
-    val receiversNumber = expandedType.contextParameterNumberForFunctionType + if (expandedType.isExtensionFunctionType) 1 else 0
+    val receiversNumber = expandedType.contextParameterNumberForFunctionType +
+            if (expandedType.isExtensionFunctionType && !expandedType.isReflectFunctionType(session)) 1 else 0
     val valueParameters = expandedType.typeArguments.drop(receiversNumber).dropLast(1)
 
     return valueParameters.map { it.typeOrDefault(session.builtinTypes.nothingType.coneType) }

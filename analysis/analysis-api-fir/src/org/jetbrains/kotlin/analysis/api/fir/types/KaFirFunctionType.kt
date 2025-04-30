@@ -95,11 +95,6 @@ internal class KaFirFunctionType(
     override val parameters: List<KaFunctionValueParameter>
         get() = withValidityAssertion {
             buildList {
-                receiverType?.let { type ->
-                    if (isReflectType) {
-                        add(KaBaseFunctionValueParameter(null, type))
-                    }
-                }
                 parameterTypes.mapIndexedTo(this) { index, parameterType ->
                     val name = (parameterType as? KaFirType)?.coneType?.parameterName
                     KaBaseFunctionValueParameter(name, parameterType)

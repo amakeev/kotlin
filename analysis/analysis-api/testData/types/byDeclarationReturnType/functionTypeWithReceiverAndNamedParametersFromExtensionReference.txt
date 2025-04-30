@@ -1,7 +1,7 @@
 KaFunctionType:
   abbreviation: null
   annotations: []
-  arity: 2
+  arity: 3
   classId: kotlin/reflect/KFunction3
   contextReceivers: []
   hasContextReceivers: false
@@ -10,6 +10,19 @@ KaFunctionType:
   isSuspend: false
   nullability: NON_NULLABLE
   parameterTypes: [
+    KaUsualClassType:
+      abbreviation: null
+      annotations: []
+      classId: Foo
+      nullability: NON_NULLABLE
+      qualifiers: [
+        KaResolvedClassTypeQualifier:
+          name: Foo
+          symbol: KaNamedClassSymbol(Foo)
+          typeArguments: []
+      ]
+      symbol: KaNamedClassSymbol(Foo)
+      typeArguments: []
     KaUsualClassType:
       abbreviation: null
       annotations: [
