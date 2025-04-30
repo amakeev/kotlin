@@ -12,7 +12,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.diagnostics.KotlinToolingDiagnostics
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.testbase.*
-import org.jetbrains.kotlin.gradle.testbase.BuildOptions.ConfigurationCacheValue
 import org.jetbrains.kotlin.gradle.uklibs.PublisherConfiguration
 import org.jetbrains.kotlin.gradle.uklibs.applyMultiplatform
 import org.jetbrains.kotlin.gradle.uklibs.setupMavenPublication
@@ -214,9 +213,6 @@ private fun KGPBaseTest.publishMultiplatformLibrary(
 
     build(
         "publishAllPublicationsToCrossTestRepository",
-        buildOptions = buildOptions.copy(
-            configurationCache = ConfigurationCacheValue.DISABLED
-        ),
         assertions = assertions
     )
 }
