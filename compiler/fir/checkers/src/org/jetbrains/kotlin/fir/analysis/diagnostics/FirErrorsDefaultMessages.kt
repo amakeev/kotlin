@@ -1518,7 +1518,7 @@ object FirErrorsDefaultMessages : BaseDiagnosticRendererFactory() {
         )
         map.put(
             INFERRED_INVISIBLE_WHEN_TYPE,
-            "Inferred {1}-expression return type ''{0}'' is invisible.",
+            "Inferred {1} expression return type ''{0}'' is invisible.",
             RENDER_TYPE,
             STRING,
         )
