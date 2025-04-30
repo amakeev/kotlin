@@ -64,7 +64,7 @@ object FirReifiedChecker : FirQualifiedAccessExpressionChecker(MppCheckerKind.Co
                     fullyExpandedType = typeArgument,
                 )
             } else if (
-                varargTypeParameter == typeParameter && typeArgument.isTypeVisibilityBroken(recursive = false) && isInferred
+                varargTypeParameter == typeParameter && typeArgument.isTypeVisibilityBroken(checkTypeArguments = false) && isInferred
             ) {
                 reporter.reportOn(
                     source, FirErrors.INFERRED_INVISIBLE_VARARG_TYPE_ARGUMENT, typeParameter, typeArgument, varargParameter
@@ -85,9 +85,9 @@ object FirReifiedChecker : FirQualifiedAccessExpressionChecker(MppCheckerKind.Co
         if (expression.typeArguments.any { it is FirTypeProjectionWithVariance && it.typeRef is FirErrorTypeRef }) return
         if (expression !is FirFunctionCall) return
         val hasNestedVisibilityErrorsInParameters = (expression.allReceiverExpressions + expression.arguments)
-            .any { it.resolvedType is ConeErrorType || it.resolvedType.isTypeVisibilityBroken(recursive = true) }
+            .any { it.resolvedType is ConeErrorType || it.resolvedType.isTypeVisibilityBroken(checkTypeArguments = true) }
         if (hasNestedVisibilityErrorsInParameters) return
-        if (returnType.isTypeVisibilityBroken(recursive = true)) {
+        if (returnType.isTypeVisibilityBroken(checkTypeArguments = true)) {
             reporter.reportOn(expression.source, FirErrors.INFERRED_INVISIBLE_RETURN_TYPE, callableSymbol, returnType)
         }
     }
@@ -131,7 +131,7 @@ object FirReifiedChecker : FirQualifiedAccessExpressionChecker(MppCheckerKind.Co
             }
             return
         }
-        if (fullyExpandedType.isTypeVisibilityBroken(recursive = false) && (!isExplicit || isPlaceHolder)) {
+        if (fullyExpandedType.isTypeVisibilityBroken(checkTypeArguments = false) && (!isExplicit || isPlaceHolder)) {
             reporter.reportOn(source, FirErrors.INFERRED_INVISIBLE_REIFIED_TYPE_ARGUMENT, typeParameter, fullyExpandedType)
         }
 

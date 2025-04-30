@@ -18,7 +18,7 @@ object FirWhenReturnTypeChecker : FirWhenExpressionChecker(MppCheckerKind.Common
     context(context: CheckerContext, reporter: DiagnosticReporter)
     override fun check(expression: FirWhenExpression) {
         val returnType = expression.resolvedType
-        if (returnType.isTypeVisibilityBroken(recursive = true)) {
+        if (returnType.isTypeVisibilityBroken(checkTypeArguments = true)) {
             reporter.reportOn(expression.source, INFERRED_INVISIBLE_WHEN_TYPE, returnType, if (expression.isIfExpression) "if" else "when")
         }
     }

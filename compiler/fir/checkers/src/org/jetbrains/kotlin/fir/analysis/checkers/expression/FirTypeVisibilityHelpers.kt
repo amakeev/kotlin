@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.fir.visibilityChecker
 @OptIn(SymbolInternals::class)
 context(context: CheckerContext)
 internal fun ConeKotlinType.isTypeVisibilityBroken(
-    recursive: Boolean,
+    checkTypeArguments: Boolean,
 ): Boolean {
 
     val visibilityChecker = context.session.visibilityChecker
@@ -33,10 +33,10 @@ internal fun ConeKotlinType.isTypeVisibilityBroken(
     ) {
         return true
     }
-    if (recursive) {
+    if (checkTypeArguments) {
         for (typeArgument in typeArguments) {
             if (typeArgument is ConeKotlinTypeProjection) {
-                if (typeArgument.type.isTypeVisibilityBroken(recursive = true)) return true
+                if (typeArgument.type.isTypeVisibilityBroken(checkTypeArguments = true)) return true
             }
         }
     }
