@@ -38,6 +38,11 @@ import org.jetbrains.kotlin.utils.exceptions.requireWithAttachment
  */
 private typealias SessionStorage = CleanableValueReferenceCache<KaModule, LLFirSession>
 
+/**
+ * Holds all the caches which are operated by [LLFirSessionCache].
+ *
+ * Can be invalidated only in [LLFirSessionCacheInvalidator.InvalidationSession]
+ */
 @LLFirInternals
 class LLFirSessionCacheStorage(
     val sourceCache: SessionStorage,
@@ -60,6 +65,11 @@ class LLFirSessionCacheStorage(
     val getCleaner: (LLFirSession) -> ValueReferenceCleaner<LLFirSession>,
 ) {
 
+    /**
+     * Creates a copy of this [LLFirSessionCacheStorage] with the following guarantees:
+     * - The new underlying map is used with all entries copied
+     * - The same reference queue is used
+     */
     fun createCopy(): LLFirSessionCacheStorage {
         return LLFirSessionCacheStorage(
             sourceCache = sourceCache.createCopy(),
@@ -89,6 +99,12 @@ class LLFirSessionCacheStorage(
 
 @LLFirInternals
 object LLFirSessionCacheInvalidator {
+
+    /**
+     * A session only during which invalidation of sessions in [LLFirSessionCacheStorage] is allowed
+     *
+     * Should be used only by [LLFirSessionCacheInvalidator.performInvalidation]
+     */
     class InvalidationSession(
         private val storage: LLFirSessionCacheStorage
     ) {
@@ -218,6 +234,18 @@ object LLFirSessionCacheInvalidator {
         }
     }
 
+
+    /**
+     * Performs the invalidation of the given [LLFirSessionCacheStorage]
+     *
+     * Only one [InvalidationSession] can exist on each thread at the same time,
+     * so we can have some complex invalidation logic inside the [invalidationAction].
+     *
+     * The result of the invocation is modified [storage] according to the [invalidationAction].
+     *
+     * For the LSP purposes, the modification happens on the copy of [LLFirSessionCacheStorage] created by [LLFirSessionCacheStorage.createCopy],
+     * the [LLFirSessionCacheStorage] which is in use can only grow in size, but not be invalidated
+     */
     inline fun performInvalidation(storage: LLFirSessionCacheStorage, invalidationAction: InvalidationSession.() -> Unit) {
         val existingScope = currentInvalidationSession.get()
         if (existingScope != null) {

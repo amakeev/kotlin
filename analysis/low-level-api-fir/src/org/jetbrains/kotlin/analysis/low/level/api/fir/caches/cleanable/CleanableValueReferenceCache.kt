@@ -27,6 +27,12 @@ abstract class CleanableValueReferenceCache<K : Any, V : Any>(
     protected val referenceQueue: ReferenceQueue<V>,
 ) {
 
+    /**
+     * Creates a copy of the cache with the following guarantees:
+     * - The new map is used with all entries copied, there is no race if no shared [CleanableValueReferenceCache] are cleared concurrently
+     * - The reference queue is reused it is highly coupled with corresponding [CleanableValueReferenceCache].
+     *   It is safe we can safely clean values from the [ReferenceQueue] from any [CleanableValueReferenceCache] and it will only be cleaned once by [processQueue].
+     */
     abstract fun createCopy(): CleanableValueReferenceCache<K, V>
 
     internal abstract fun createReference(key: K, value: V): ReferenceWithCleanup<K, V>
@@ -41,7 +47,8 @@ abstract class CleanableValueReferenceCache<K : Any, V : Any>(
 
             val wasRemoved = backingMap.remove(ref.key, ref)
 
-            // If `ref` already wasn't part of the map, it will have been cleaned up by a deterministic removal operation.
+            // If `ref` already wasn't part of the map,
+            // it will have been cleaned up by a deterministic removal operation or by copy of [CleanableValueReferenceCache]
             if (wasRemoved) {
                 ref.performCleanup()
             }
