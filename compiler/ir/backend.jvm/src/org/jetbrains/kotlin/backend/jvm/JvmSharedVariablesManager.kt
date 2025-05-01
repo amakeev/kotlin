@@ -9,8 +9,7 @@ import org.jetbrains.kotlin.backend.common.ir.BuiltinSymbolsBase
 import org.jetbrains.kotlin.backend.common.ir.SharedVariablesManager
 import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.IrStatement
-import org.jetbrains.kotlin.ir.builders.declarations.*
-import org.jetbrains.kotlin.ir.declarations.*
+import org.jetbrains.kotlin.ir.declarations.IrVariable
 import org.jetbrains.kotlin.ir.declarations.impl.IrVariableImpl
 import org.jetbrains.kotlin.ir.expressions.IrConst
 import org.jetbrains.kotlin.ir.expressions.IrExpression
@@ -20,13 +19,11 @@ import org.jetbrains.kotlin.ir.expressions.impl.*
 import org.jetbrains.kotlin.ir.symbols.IrFieldSymbol
 import org.jetbrains.kotlin.ir.symbols.IrValueSymbol
 import org.jetbrains.kotlin.ir.symbols.impl.IrVariableSymbolImpl
-import org.jetbrains.kotlin.ir.types.*
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.types.typeOrFail
 import org.jetbrains.kotlin.ir.util.defaultValueForType
 
-class JvmSharedVariablesManager(
-    val symbols: JvmSymbols,
-    val irBuiltIns: IrBuiltIns,
-) : SharedVariablesManager() {
+class JvmSharedVariablesManager(symbols: JvmSymbols, val irBuiltIns: IrBuiltIns) : SharedVariablesManager<JvmSymbols>(symbols) {
 
     private val BuiltinSymbolsBase.RefProvider.elementField: IrFieldSymbol
         get() = elementProperty.owner.backingField!!.symbol

@@ -12,8 +12,8 @@ fun noCapture() = myWith(42) { it }
 // HAS_NO_CAPTURED_VARS: function=captureLocalVariableReadOnly except=myWith
 fun captureLocalVariableReadOnly(a: Int) = myWith(1) { a + it }
 
-// CHECK_CONTAINS_NO_CALLS: captureLocalVariableReadWrite except=myWith
-// HAS_NO_CAPTURED_VARS: function=captureLocalVariableReadWrite except=myWith
+// CHECK_CONTAINS_NO_CALLS: captureLocalVariableReadWrite except=myWith;IntRef
+// HAS_NO_CAPTURED_VARS: function=captureLocalVariableReadWrite except=myWith;IntRef
 fun captureLocalVariableReadWrite(): Int {
     var a = 41
     return myWith(1) {

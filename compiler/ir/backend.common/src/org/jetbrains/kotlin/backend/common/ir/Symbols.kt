@@ -179,6 +179,13 @@ open class BuiltinSymbolsBase(val irBuiltIns: IrBuiltIns) {
                 arguments = if (hasTypeParameter) listOf(valueType.makeNotNull()) else emptyList(),
                 annotations = emptyList(),
             )
+
+        fun propertyType(valueType: IrType): IrType =
+            if (hasTypeParameter) {
+                valueType.makeNullable()
+            } else {
+                elementProperty.owner.getter!!.returnType
+            }
     }
 
     protected open fun findCommonRefNamespaceClass(): IrClassSymbol? {
