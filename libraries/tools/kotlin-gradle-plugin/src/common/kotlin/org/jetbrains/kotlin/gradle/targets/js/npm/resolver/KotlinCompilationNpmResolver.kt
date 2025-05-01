@@ -97,6 +97,7 @@ class KotlinCompilationNpmResolver(
                 .disallowChanges()
 
             it.jsIrCompilation.set(true)
+            it.generateTypes.set(target.shouldGenerateTypeScriptDefinitions)
             it.npmProjectName.set(npmProject.name)
             it.npmProjectMain.set(npmProject.main)
             it.extension.set(compilation.fileExtension)

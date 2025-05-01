@@ -91,6 +91,8 @@ open class NpmProject(@Transient val compilation: KotlinJsIrCompilation) : Seria
         "${DIST_FOLDER}/$name.$ext"
     }
 
+    val types: Provider<String> = name.map { "$DIST_FOLDER/$it.d.ts" }
+
     val publicPackageJsonTaskName: String
         get() = compilation.disambiguateName(PublicPackageJsonTask.NAME)
 
