@@ -96,6 +96,7 @@ class KotlinCompilationNpmResolver(
             it.npmResolutionManager.value(npmResolutionManager)
                 .disallowChanges()
 
+            @Suppress("DEPRECATION")
             it.jsIrCompilation.set(true)
             it.generateTypes.set(target.shouldGenerateTypeScriptDefinitions)
             it.npmProjectName.set(npmProject.name)
