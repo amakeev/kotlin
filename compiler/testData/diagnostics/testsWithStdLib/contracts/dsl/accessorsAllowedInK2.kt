@@ -1,52 +1,24 @@
 // RUN_PIPELINE_TILL: BACKEND
 // OPT_IN: kotlin.contracts.ExperimentalContracts
+// LANGUAGE: +AllowContractsOnPropertyAccessors
 
 import kotlin.contracts.*
 
-val Boolean.case_1: () -> Unit
+var Int?.prop : Int?
     get() {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
-            returns() implies (this@case_1)
-        }
-        return {}
+        <!CONTRACT_NOT_ALLOWED!>contract<!> { returns() implies (this@prop != null) }
+        return null
+    }
+    set(v: Int?) {
+        <!CONTRACT_NOT_ALLOWED!>contract<!> { returns() implies (this@prop != null) }
     }
 
-val (() -> Unit).case_2: () -> Unit
-    get() {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
-            callsInPlace(this@case_2, InvocationKind.EXACTLY_ONCE)
-        }
-        return {}
-    }
+fun test1(v: Int?) {
+    val vv = v.prop
+    v <!UNSAFE_OPERATOR_CALL!>+<!> 1
+}
 
-var Boolean.case_3: () -> Unit
-    get() {
-        return {}
-    }
-    set(value: () -> Unit) {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
-            callsInPlace(value, InvocationKind.EXACTLY_ONCE)
-        }
-    }
-
-var (() -> Unit).case_4: () -> Unit
-    get() {
-        return {}
-    }
-    set(value) {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
-            callsInPlace(this@case_4, InvocationKind.EXACTLY_ONCE)
-        }
-    }
-
-val Boolean.case_5: () -> Unit
-    get() {
-        <!CONTRACT_NOT_ALLOWED!>contract<!> {
-            returns() implies (this@case_5)
-        }
-
-        if (!this@case_5)
-            throw Exception()
-
-        return {}
-    }
+fun test2(v: Int?, newv: Int?) {
+    v.prop = newv
+    v <!UNSAFE_OPERATOR_CALL!>+<!> 1
+}

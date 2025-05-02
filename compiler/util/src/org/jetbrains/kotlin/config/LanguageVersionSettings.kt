@@ -513,6 +513,7 @@ enum class LanguageFeature(
 
     AllowCheckForErasedTypesInContracts(sinceVersion = null, "KT-45683"),
     AllowContractsOnSomeOperators(sinceVersion = null, "KT-32313"),
+    AllowContractsOnPropertyAccessors(sinceVersion = null, "KT-27090"),
     ;
 
     constructor(

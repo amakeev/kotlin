@@ -79,11 +79,11 @@ val topLevelAnonymousFunction = fun (x: Boolean) {
 
 var topLevelPropertyAccessors: Int? = <!PROPERTY_INITIALIZER_NO_BACKING_FIELD!>42<!>
     get() {
-        contract { <!ERROR_IN_CONTRACT_DESCRIPTION!>returns() implies (<!UNRESOLVED_REFERENCE!>field<!> != null)<!> }
+        <!CONTRACT_NOT_ALLOWED!>contract<!> { returns() implies (<!UNRESOLVED_REFERENCE!>field<!> != null) }
         return 42
     }
     set(value) {
-        contract { <!ERROR_IN_CONTRACT_DESCRIPTION!>returns() implies (<!UNRESOLVED_REFERENCE!>field<!> != null)<!> }
+        <!CONTRACT_NOT_ALLOWED!>contract<!> { returns() implies (<!UNRESOLVED_REFERENCE!>field<!> != null) }
     }
 
 
