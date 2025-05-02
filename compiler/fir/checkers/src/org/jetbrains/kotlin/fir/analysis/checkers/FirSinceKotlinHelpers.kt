@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.expressions.FirLiteralExpression
 import org.jetbrains.kotlin.fir.languageVersionSettings
+import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.name.StandardClassIds
 import org.jetbrains.kotlin.resolve.checkers.OptInNames
@@ -33,7 +34,7 @@ private data class FirSinceKotlinValue(
     val wasExperimentalMarkerClasses: List<FirRegularClassSymbol>
 )
 
-fun FirDeclaration.checkSinceKotlinVersionAccessibility(context: CheckerContext): FirSinceKotlinAccessibility {
+fun FirBasedSymbol<*>.checkSinceKotlinVersionAccessibility(context: CheckerContext): FirSinceKotlinAccessibility {
     val value = getOwnSinceKotlinVersion(context.session)
     val version = value?.apiVersion
     val languageVersionSettings = context.session.languageVersionSettings
@@ -52,7 +53,7 @@ fun FirDeclaration.checkSinceKotlinVersionAccessibility(context: CheckerContext)
     return FirSinceKotlinAccessibility.NotAccessible(version)
 }
 
-private fun FirDeclaration.getOwnSinceKotlinVersion(session: FirSession): FirSinceKotlinValue? {
+private fun FirBasedSymbol<*>.getOwnSinceKotlinVersion(session: FirSession): FirSinceKotlinValue? {
     val sinceKotlinSingleArgument = getAnnotationByClassId(StandardClassIds.Annotations.SinceKotlin, session)?.findArgumentByName(
         StandardClassIds.Annotations.ParameterNames.sinceKotlinVersion
     )
@@ -62,7 +63,7 @@ private fun FirDeclaration.getOwnSinceKotlinVersion(session: FirSession): FirSin
     } else null
 }
 
-private fun FirDeclaration.loadWasExperimentalMarkerClasses(session: FirSession): List<FirRegularClassSymbol> {
+private fun FirBasedSymbol<*>.loadWasExperimentalMarkerClasses(session: FirSession): List<FirRegularClassSymbol> {
     val wasExperimental = getAnnotationByClassId(OptInNames.WAS_EXPERIMENTAL_CLASS_ID, session) ?: return emptyList()
     val annotationClasses = wasExperimental.findArgumentByName(OptInNames.WAS_EXPERIMENTAL_ANNOTATION_CLASS) ?: return emptyList()
     return annotationClasses.extractClassesFromArgument(session)
