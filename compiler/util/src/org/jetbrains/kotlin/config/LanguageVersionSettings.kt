@@ -512,6 +512,7 @@ enum class LanguageFeature(
     ExportKlibToOlderAbiVersion(sinceVersion = null, forcesPreReleaseBinaries = true, issue = "KT-76131"),
 
     AllowCheckForErasedTypesInContracts(sinceVersion = null, "KT-45683"),
+    AllowContractsOnSomeOperators(sinceVersion = null, "KT-32313"),
     ;
 
     constructor(

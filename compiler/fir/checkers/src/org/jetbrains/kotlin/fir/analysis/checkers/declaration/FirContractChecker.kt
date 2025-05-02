@@ -36,7 +36,6 @@ import org.jetbrains.kotlin.fir.visitors.FirVisitorVoid
 import org.jetbrains.kotlin.utils.addToStdlib.ifTrue
 import org.jetbrains.kotlin.util.OperatorNameConventions
 import org.jetbrains.kotlin.utils.exceptions.errorWithAttachment
-import kotlin.contracts.contract
 
 object FirContractChecker : FirFunctionChecker(MppCheckerKind.Common) {
     private const val EMPTY_CONTRACT_MESSAGE = "Empty contract block is not allowed"
@@ -151,8 +150,14 @@ object FirContractChecker : FirFunctionChecker(MppCheckerKind.Common) {
 
         if (declaration is FirPropertyAccessor || declaration is FirAnonymousFunction) contractNotAllowed("Contracts are only allowed for functions.")
         else if (declaration.isAbstract || declaration.isOpen || declaration.isOverride) contractNotAllowed("Contracts are not allowed for open or override functions.")
-        else if (declaration.isOperator && declaration.isContractOnOperatorForbidden()) contractNotAllowed("Contracts are not allowed for operator ${declaration.nameOrSpecialName}.")
-        else if (declaration.symbol.callableId.isLocal || declaration.visibility == Visibilities.Local) contractNotAllowed("Contracts are not allowed for local functions.")
+        else if (declaration.isOperator) {
+            if (context.languageVersionSettings.supportsFeature(LanguageFeature.AllowContractsOnSomeOperators)) {
+                if (declaration.isContractOnOperatorForbidden())
+                    contractNotAllowed("Contracts are not allowed for operator ${declaration.nameOrSpecialName}.")
+            } else {
+                contractNotAllowed("Contracts are not allowed for operator functions.")
+            }
+        } else if (declaration.symbol.callableId.isLocal || declaration.visibility == Visibilities.Local) contractNotAllowed("Contracts are not allowed for local functions.")
         else return false
         return true
     }
