@@ -1058,7 +1058,7 @@ fun reportAtomicToPrimitiveProblematicAccess(
     reporter: DiagnosticReporter,
 ) {
     val expanded = type.fullyExpandedType(context.session)
-    val argument = expanded.typeArguments.firstOrNull()?.type ?: return
+    val argument = expanded.typeArguments.firstOrNull()?.type?.unwrapToSimpleTypeUsingLowerBound() ?: return
 
     if (argument.isPrimitiveOrNullablePrimitive || argument.isValueClass(context.session)) {
         val candidate = appropriateCandidatesForArgument[argument.classId]
