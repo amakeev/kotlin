@@ -5,6 +5,9 @@ import java.net.URI
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
+// Note: This script could not use the 'private' modifier as it is being used in Gradle integration tests with Gradle 7.6.3.
+// This old Gradle version fails to compile this script in such a case.
+
 internal val Settings.cacheRedirectorEnabled: Provider<Boolean>
     get() = providers
         .gradleProperty("cacheRedirectorEnabled")
@@ -18,7 +21,7 @@ internal val Settings.cacheRedirectorEnabled: Provider<Boolean>
  *  To add a repository to the list create an issue in ADM project (example issue https://youtrack.jetbrains.com/issue/IJI-149)
  *  Or send a merge request to https://jetbrains.team/p/iji/repositories/Cache-Redirector/files/64b69490c54a2a900bb3dd21471f942270289a12/images/config-gen/src/main/kotlin/Config.kt
  */
-private val cacheMap: Map<String, String> = mapOf(
+val cacheMap: Map<String, String> = mapOf(
     "https://cache-redirector.jetbrains.com/teamcity-rest-client" to "https://cache-redirector.jetbrains.com/jetbrains.bintray.com/teamcity-rest-client",
     "https://cache-redirector.jetbrains.com/wormhole" to "https://cache-redirector.jetbrains.com/jetbrains.bintray.com/wormhole",
     "https://dl35a2bc3xf3g.cloudfront.net/rplugin" to "https://cache-redirector.jetbrains.com/jetbrains.bintray.com/rplugin",
@@ -170,11 +173,11 @@ private val cacheMap: Map<String, String> = mapOf(
     "https://repo.gradle.org/gradle/libs-releases" to "https://cache-redirector.jetbrains.com/repo.gradle.org/gradle/libs-releases",
 )
 
-private val aliases = mapOf(
+val aliases = mapOf(
     "https://repo.maven.apache.org/maven2" to "https://repo1.maven.org/maven2" // Maven Central
 )
 
-private fun URI.maybeRedirect(): URI {
+fun URI.maybeRedirect(): URI {
     val url = toString().trimEnd('/')
     val deAliasedUrl = aliases.getOrDefault(url, url)
 
@@ -188,7 +191,7 @@ private fun URI.maybeRedirect(): URI {
     }
 }
 
-private fun RepositoryHandler.redirect() = configureEach {
+fun RepositoryHandler.redirect() = configureEach {
     when (this) {
         is MavenArtifactRepository -> url = url.maybeRedirect()
         is IvyArtifactRepository -> @Suppress("SENSELESS_COMPARISON") if (url != null) {
@@ -207,7 +210,7 @@ fun Project.overrideNativeCompilerDownloadUrl() {
 
 // Check repositories are overriden section
 
-private fun Project.addCheckRepositoriesTask() {
+fun Project.addCheckRepositoriesTask() {
     val checkRepoTask = tasks.register("checkRepositories") {
         val isTeamcityBuildInput = providers
             .gradleProperty("teamcity").map { true }
@@ -250,14 +253,14 @@ private fun Project.addCheckRepositoriesTask() {
     }
 }
 
-private fun URI.isCachedOrLocal() = scheme == "file" ||
+fun URI.isCachedOrLocal() = scheme == "file" ||
         host == "cache-redirector.jetbrains.com" ||
         host == "teamcity.jetbrains.com" ||
         host == "buildserver.labs.intellij.net" ||
         host == "packages.jetbrains.team" ||
         host == "redirector.kotlinlang.org"
 
-private fun RepositoryHandler.findNonCachedRepositories(): List<String> {
+fun RepositoryHandler.findNonCachedRepositories(): List<String> {
     val mavenNonCachedRepos = filterIsInstance<MavenArtifactRepository>()
         .filterNot { it.url.isCachedOrLocal() }
         .map { it.url.toString() }
@@ -269,23 +272,23 @@ private fun RepositoryHandler.findNonCachedRepositories(): List<String> {
     return mavenNonCachedRepos + ivyNonCachedRepos
 }
 
-private fun escape(s: String): String {
+fun escape(s: String): String {
     return s.replace("[|'\\[\\]]".toRegex(), "\\|$0").replace("\n".toRegex(), "|n").replace("\r".toRegex(), "|r")
 }
 
-private fun testStarted(testName: String) {
+fun testStarted(testName: String) {
     println("##teamcity[testStarted name='%s']".format(escape(testName)))
 }
 
-private fun testFinished(testName: String) {
+fun testFinished(testName: String) {
     println("##teamcity[testFinished name='%s']".format(escape(testName)))
 }
 
-private fun testFailed(name: String, message: String, details: String) {
+fun testFailed(name: String, message: String, details: String) {
     println("##teamcity[testFailed name='%s' message='%s' details='%s']".format(escape(name), escape(message), escape(details)))
 }
 
-private fun Task.logNonCachedRepo(
+fun Task.logNonCachedRepo(
     testName: String,
     repoUrl: String,
     isTeamcityBuild: Boolean
@@ -301,7 +304,7 @@ private fun Task.logNonCachedRepo(
     logger.warn("WARNING - $msg\n$details")
 }
 
-private fun Task.logInvalidIvyRepo(
+fun Task.logInvalidIvyRepo(
     testName: String,
     isTeamcityBuild: Boolean
 ) {
