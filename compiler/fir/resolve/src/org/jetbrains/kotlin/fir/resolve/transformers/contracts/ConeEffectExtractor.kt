@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.fir.resolve.transformers.contracts
 
+import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.contracts.description.*
 import org.jetbrains.kotlin.fir.FirElement
 import org.jetbrains.kotlin.fir.FirSession
@@ -12,15 +13,16 @@ import org.jetbrains.kotlin.fir.contracts.description.*
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.diagnostics.ConeDiagnostic
 import org.jetbrains.kotlin.fir.expressions.*
+import org.jetbrains.kotlin.fir.languageVersionSettings
 import org.jetbrains.kotlin.fir.references.FirNamedReference
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeContractDescriptionError
 import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
 import org.jetbrains.kotlin.fir.resolve.getContainingClass
 import org.jetbrains.kotlin.fir.resolve.referencedMemberSymbol
-import org.jetbrains.kotlin.fir.resolve.toTypeParameterSymbol
 import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.fir.types.coneType
 import org.jetbrains.kotlin.fir.types.resolvedType
+import org.jetbrains.kotlin.fir.resolve.toTypeParameterSymbol
 import org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor
 import org.jetbrains.kotlin.name.CallableId
 import org.jetbrains.kotlin.name.Name
@@ -216,8 +218,14 @@ class ConeEffectExtractor(
         val isNegated = typeOperatorCall.operation == FirOperation.NOT_IS
         val diagnostic = type.toTypeParameterSymbol(session)?.let { typeParameterSymbol ->
             val typeParametersOfOwner = (owner as? FirTypeParameterRefsOwner)?.typeParameters.orEmpty()
-            runIf(typeParametersOfOwner.none { it is FirTypeParameter && it.symbol == typeParameterSymbol }) {
-                ConeContractDescriptionError.NotSelfTypeParameter(typeParameterSymbol)
+            if (typeParametersOfOwner.none { it is FirTypeParameter && it.symbol == typeParameterSymbol }) {
+                return@let ConeContractDescriptionError.NotSelfTypeParameter(typeParameterSymbol)
+            }
+            runIf(
+                !typeParameterSymbol.isReified
+                        && !session.languageVersionSettings.supportsFeature(LanguageFeature.AllowCheckForErasedTypesInContracts)
+            ) {
+                ConeContractDescriptionError.NotReifiedTypeParameter(typeParameterSymbol)
             }
         }
         return when (diagnostic) {

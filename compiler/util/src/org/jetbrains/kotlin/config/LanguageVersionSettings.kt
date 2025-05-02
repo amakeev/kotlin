@@ -510,6 +510,8 @@ enum class LanguageFeature(
     DisableWarningsForIdentitySensitiveOperationsOnValueClassesAndPrimitives(sinceVersion = null, "KT-70722"),
     IrRichCallableReferencesInKlibs(sinceVersion = null, "KT-72734"), // KT-72734, KT-74384, KT-74392
     ExportKlibToOlderAbiVersion(sinceVersion = null, forcesPreReleaseBinaries = true, issue = "KT-76131"),
+
+    AllowCheckForErasedTypesInContracts(sinceVersion = null, "KT-45683"),
     ;
 
     constructor(

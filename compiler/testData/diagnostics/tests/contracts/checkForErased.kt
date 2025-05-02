@@ -1,6 +1,7 @@
 // RUN_PIPELINE_TILL: BACKEND
 // WITH_STDLIB
 // OPT_IN: kotlin.contracts.ExperimentalContracts
+// LANGUAGE: +AllowCheckForErasedTypesInContracts
 
 import kotlin.contracts.*
 import kotlin.reflect.KClass
