@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.ir.util.isFunctionInlining
 import org.jetbrains.kotlin.ir.visitors.IrVisitor
 import org.jetbrains.kotlin.name.NameUtils
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toUpperCaseAsciiOnly
+import kotlin.math.absoluteValue
 
 /**
  * Invents names for local classes and anonymous objects.
@@ -154,8 +155,10 @@ abstract class InventNamesForLocalClasses(private val shouldIncludeVariableName:
 
             val internalName = when {
                 declaration is IrFunction && !NameUtils.hasName(declaration.name) -> {
-                    // Replace "unnamed" function names with indices.
-                    data.appendName(null).also {
+                    // Replace "unnamed" function names with indices
+                    // Add parameters hash code to the name to avoid name collisions
+                    val suffix = declaration.parameters.map { it.type }.hashCode().absoluteValue.toString()
+                    data.appendName(null).append(suffix).also {
                         // We save the name of the function to reuse it in the reference to it (produced by the closure conversion) later.
                         localFunctionNames[declaration.symbol] = it.buildAndSanitize()
                     }
