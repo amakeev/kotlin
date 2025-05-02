@@ -137,7 +137,7 @@ abstract class KotlinPackageJsonTask :
 
 
                 task.packageJsonTypes.set(
-                    compilation.npmProject.types
+                    compilation.npmProject.typesFilePath
                         .zip(target.shouldGenerateTypeScriptDefinitions) { typesPath, shouldGenerateTypeScriptDefinitions ->
                             if (shouldGenerateTypeScriptDefinitions) typesPath else null
                         }

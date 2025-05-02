@@ -101,6 +101,7 @@ class KotlinCompilationNpmResolver(
             it.generateTypes.set(target.shouldGenerateTypeScriptDefinitions)
             it.npmProjectName.set(npmProject.name)
             it.npmProjectMain.set(npmProject.main)
+            it.npmProjectTypes.set(npmProject.typesFileName)
             it.extension.set(compilation.fileExtension)
         }
 

@@ -51,6 +51,9 @@ abstract class PublicPackageJsonTask :
     abstract val npmProjectMain: Property<String>
 
     @get:Internal
+    abstract val npmProjectTypes: Property<String>
+
+    @get:Internal
     abstract val packageJsonHandlers: ListProperty<Action<PackageJson>>
 
     @Suppress("unused")
@@ -98,7 +101,7 @@ abstract class PublicPackageJsonTask :
             packageJson.main = "${npmProjectName.get()}.${extension.get()}"
 
             if (generateTypes.get()) {
-                packageJson.types = "${npmProjectName.get()}.d.ts"
+                packageJson.types = npmProjectTypes.get()
             }
 
             packageJson.apply {
