@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.analysis.checkers.*
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.ABSTRACT_CLASS_MEMBER_NOT_IMPLEMENTED
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.ABSTRACT_MEMBER_INCORRECTLY_DELEGATED
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.ABSTRACT_MEMBER_NOT_IMPLEMENTED
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.ABSTRACT_MEMBER_NOT_IMPLEMENTED_BY_ENUM_ENTRY
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE
@@ -26,7 +27,9 @@ import org.jetbrains.kotlin.fir.containingClassLookupTag
 import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.utils.*
 import org.jetbrains.kotlin.fir.delegatedWrapperData
+import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
 import org.jetbrains.kotlin.fir.resolve.toRegularClassSymbol
+import org.jetbrains.kotlin.fir.resolve.toSymbol
 import org.jetbrains.kotlin.fir.scopes.MemberWithBaseScope
 import org.jetbrains.kotlin.fir.scopes.ScopeFunctionRequiresPrewarm
 import org.jetbrains.kotlin.fir.scopes.getDirectOverriddenMembersWithBaseScope
@@ -35,6 +38,9 @@ import org.jetbrains.kotlin.fir.scopes.impl.filterOutOverriddenProperties
 import org.jetbrains.kotlin.fir.scopes.impl.multipleDelegatesWithTheSameSignature
 import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.*
+import org.jetbrains.kotlin.fir.types.ConeClassLikeType
+import org.jetbrains.kotlin.fir.types.coneType
+import org.jetbrains.kotlin.fir.types.resolvedType
 import org.jetbrains.kotlin.fir.unwrapFakeOverrides
 import org.jetbrains.kotlin.util.ImplementationStatus
 import kotlin.contracts.ExperimentalContracts
@@ -63,6 +69,8 @@ object FirNotImplementedOverrideChecker : FirClassChecker(MppCheckerKind.Platfor
         val delegationOverrideOfOpen = mutableListOf<Pair<FirCallableSymbol<*>, FirCallableSymbol<*>>>()
         val invisibleSymbols = mutableListOf<FirCallableSymbol<*>>()
         val varsImplementedByInheritedVal = mutableListOf<FirIntersectionCallableSymbol>()
+        val incorrectlyDelegatedSymbols = mutableListOf<FirCallableSymbol<*>>()
+        val session = context.session
 
         @OptIn(ScopeFunctionRequiresPrewarm::class) // The symbol is coming from a call to process*ByName
         fun collectSymbol(symbol: FirCallableSymbol<*>) {
@@ -96,6 +104,12 @@ object FirNotImplementedOverrideChecker : FirClassChecker(MppCheckerKind.Platfor
                         delegationOverrideOfOpen.add(symbol to firstOpen)
                 }
 
+                if (classKind != ClassKind.OBJECT) return
+                val delegateFieldType = delegatedWrapperData.delegateField.initializer?.resolvedType?.fullyExpandedType(session)
+                if ((delegateFieldType as? ConeClassLikeType)?.lookupTag?.toSymbol(session) != classSymbol) {
+                    return
+                }
+                incorrectlyDelegatedSymbols.add(symbol)
                 return
             }
             when (symbol.getImplementationStatus(context.sessionHolder, classSymbol)) {
@@ -160,6 +174,15 @@ object FirNotImplementedOverrideChecker : FirClassChecker(MppCheckerKind.Platfor
                     classSymbol,
                     notFromInterfaceOrEnum.map { it.unwrapFakeOverrides() })
             }
+
+            if (incorrectlyDelegatedSymbols.isNotEmpty()) {
+                reporter.reportOn(
+                    source,
+                    ABSTRACT_MEMBER_INCORRECTLY_DELEGATED,
+                    classSymbol,
+                    incorrectlyDelegatedSymbols.map { it.unwrapFakeOverrides() }
+                )
+            }
         }
         if (!canHaveAbstractDeclarations && invisibleSymbols.isNotEmpty()) {
             reporter.reportOn(source, INVISIBLE_ABSTRACT_MEMBER_FROM_SUPER_ERROR, classSymbol, invisibleSymbols)
@@ -194,13 +217,13 @@ object FirNotImplementedOverrideChecker : FirClassChecker(MppCheckerKind.Platfor
                         it.modality == Modality.ABSTRACT
                     }
                 if (implIntersections.any {
-                        it.containingClassLookupTag()?.toRegularClassSymbol(context.session)?.classKind == ClassKind.CLASS
+                        it.containingClassLookupTag()?.toRegularClassSymbol(session)?.classKind == ClassKind.CLASS
                     }
                 ) {
                     reporter.reportOn(source, MANY_IMPL_MEMBER_NOT_IMPLEMENTED, classSymbol, notImplementedIntersectionSymbol)
                 } else {
                     if (canHaveAbstractDeclarations && abstractIntersections.any {
-                            it.containingClassLookupTag()?.toRegularClassSymbol(context.session)?.classKind == ClassKind.CLASS
+                            it.containingClassLookupTag()?.toRegularClassSymbol(session)?.classKind == ClassKind.CLASS
                         }
                     ) {
                         return
