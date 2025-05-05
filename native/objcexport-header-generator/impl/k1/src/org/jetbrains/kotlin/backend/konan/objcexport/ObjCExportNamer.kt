@@ -862,9 +862,9 @@ class ObjCExportNamerImpl(
     }
 
     private sealed class AssignResult {
-        data object Success: AssignResult()
-        data object Reserved: AssignResult()
-        data class Conflict<T : Any>(val conflictingElement: T) : AssignResult()
+        data object Success : AssignResult()
+        data object Reserved : AssignResult()
+        data class Conflict(val conflictingElement: Any) : AssignResult()
     }
 
     private abstract inner class Mapping<in T : Any, N>() {
@@ -887,10 +887,11 @@ class ObjCExportNamerImpl(
                 if (!reportedCollision) {
                     reportedCollision = true
                     val conflict = when (res) {
-                        is AssignResult.Conflict<*> if res.conflictingElement is DeclarationDescriptor -> DescriptorRenderer.COMPACT_WITH_SHORT_TYPES.render(res.conflictingElement)
-                        is AssignResult.Conflict<*> -> "${res.conflictingElement}"
-                        AssignResult.Reserved -> "reserved keyword"
-                        else -> error("unexpected result: $res")
+                        is AssignResult.Conflict if res.conflictingElement is DeclarationDescriptor ->
+                            DescriptorRenderer.COMPACT_WITH_SHORT_TYPES.render(res.conflictingElement)
+                        is AssignResult.Conflict -> "${res.conflictingElement}"
+                        AssignResult.Reserved -> "a keyword or a reserved name"
+                        else -> "another entity"
                     }
                     when (configuration.nameCollisionMode) {
                         ObjCExportNameCollisionMode.ERROR -> {
