@@ -183,7 +183,7 @@ abstract class FirJavaFacade(session: FirSession, private val classFinder: JavaC
                 effectiveVisibility
             ).apply {
                 this.isInner = !isTopLevel && !this@buildJavaClass.isStatic
-                isFun = classKind == ClassKind.INTERFACE
+                isFun = false
             }
 
             declarationList = FirLazyJavaDeclarationList(javaClass, classSymbol)
