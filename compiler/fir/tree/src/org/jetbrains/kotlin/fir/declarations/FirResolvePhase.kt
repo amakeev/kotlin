@@ -269,11 +269,15 @@ val FirResolvePhase.isItAllowedToCallLazyResolveToTheSamePhase: Boolean
     get() = when (this) {
         // The resolver can end up in a deadlock in the case of an annotation loop,
         // so the locking mechanism should support this case
-        FirResolvePhase.COMPILER_REQUIRED_ANNOTATIONS -> true
+        COMPILER_REQUIRED_ANNOTATIONS -> true
 
         // The resolver can jump into Java initializer during this phase,
         // which can jump into the Kotlin world again, and we cannot provide the initial context
-        FirResolvePhase.IMPLICIT_TYPES_BODY_RESOLVE -> true
+        IMPLICIT_TYPES_BODY_RESOLVE -> true
+
+        // The resolver of status can read a status of some other callable,
+        // e.g. with the help of FirDelegatedMemberScope
+        STATUS -> true
 
         else -> false
     }
