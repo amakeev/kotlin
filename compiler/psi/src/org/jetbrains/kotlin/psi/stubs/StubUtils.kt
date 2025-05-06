@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.psi.stubs
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.IntellijInternalApi
 import com.intellij.psi.PsiComment
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
@@ -16,6 +17,7 @@ import org.jetbrains.kotlin.psi.KtClassLikeDeclaration
 import org.jetbrains.kotlin.psi.KtEnumEntry
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.stubs.StubUtils.searchForHasBackingFieldComment
 import org.jetbrains.kotlin.psi.stubs.elements.KtStubElementTypes
 import org.jetbrains.kotlin.psi.stubs.elements.KtTokenSets
 
@@ -81,6 +83,15 @@ object StubUtils {
         else -> null
     }
 
+    /**
+     * `/* hasBackingField: true */` or `/* hasBackingField: false */` are special comments added during conversion
+     * from a metadata to a decompiled text. This decompiled text is then used to create decompiled stubs.
+     *
+     * This is a reliable way to pass arbitrary information from the decompiler to the stub builder as the Analysis API
+     * controls both the decompiler and the stub builder, so they don't interfere with user code/comments.
+     *
+     * @see KotlinPropertyStub.hasBackingField
+     */
     @JvmStatic
     internal fun searchForHasBackingFieldComment(property: KtProperty): Boolean? { /**/
         var child = property.firstChild
@@ -95,19 +106,39 @@ object StubUtils {
         return null
     }
 
-    private fun searchForHasBackingField(comment: PsiComment): Boolean? = when {
-        comment.tokenType != KtTokens.BLOCK_COMMENT -> null
+    @OptIn(IntellijInternalApi::class)
+    private fun searchForHasBackingField(comment: PsiComment): Boolean? {
+        if (comment.tokenType != KtTokens.BLOCK_COMMENT) {
+            return null
+        }
 
-        // The number of characters in the special comment
-        comment.textLength.let { it != 27 /* true */ && it != 28 /* false */ } -> null
-        else -> {
-            val text = comment.text
-            if (text.startsWith("/* hasBackingField: ")) {
-                // The index of `t` or `f` in the special comment
-                text.getOrNull(20)?.equals('t')
-            } else {
-                null
-            }
+        val textLength = comment.textLength
+        if (textLength != HAS_BACKING_FIELD_COMMENT_TRUE_LENGTH && textLength != HAS_BACKING_FIELD_COMMENT_FALSE_LENGTH) {
+            return null
+        }
+
+        val text = comment.text
+        return if (text.startsWith(HAS_BACKING_FIELD_COMMENT_PREFIX)) {
+            text[HAS_BACKING_FIELD_COMMENT_VALUE_START_INDEX] == 't'
+        } else {
+            null
         }
     }
+
+    /** @see searchForHasBackingFieldComment */
+    @IntellijInternalApi
+    const val HAS_BACKING_FIELD_COMMENT_PREFIX: String = "/* hasBackingField: "
+
+    /**
+     * The index of `t` or `f` in the special comment
+     */
+    @OptIn(IntellijInternalApi::class)
+    private const val HAS_BACKING_FIELD_COMMENT_VALUE_START_INDEX: Int = HAS_BACKING_FIELD_COMMENT_PREFIX.length
+
+    @OptIn(IntellijInternalApi::class)
+    private const val HAS_BACKING_FIELD_COMMENT_TRUE: String = HAS_BACKING_FIELD_COMMENT_PREFIX + "${true} */"
+    private const val HAS_BACKING_FIELD_COMMENT_TRUE_LENGTH: Int = HAS_BACKING_FIELD_COMMENT_TRUE.length
+
+    private const val HAS_BACKING_FIELD_COMMENT_FALSE_LENGTH: Int =
+        HAS_BACKING_FIELD_COMMENT_TRUE_LENGTH - true.toString().length + false.toString().length
 }

@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.analysis.decompiler.psi.text
 
+import com.intellij.openapi.util.IntellijInternalApi
 import org.jetbrains.kotlin.analysis.decompiler.stub.COMPILED_DEFAULT_INITIALIZER
 import org.jetbrains.kotlin.analysis.decompiler.stub.COMPILED_DEFAULT_PARAMETER_VALUE
 import org.jetbrains.kotlin.analysis.decompiler.stub.computeParameterName
@@ -15,6 +16,7 @@ import org.jetbrains.kotlin.metadata.deserialization.getExtensionOrNull
 import org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.psiUtil.quoteIfNeeded
+import org.jetbrains.kotlin.psi.stubs.StubUtils
 import org.jetbrains.kotlin.renderer.DescriptorRenderer
 import org.jetbrains.kotlin.renderer.DescriptorRendererModifier
 import org.jetbrains.kotlin.renderer.DescriptorRendererOptions
@@ -144,7 +146,9 @@ private fun buildDecompiledTextImpl(
                 ?.getExtensionOrNull(JvmProtoBuf.propertySignature)
                 ?.hasField()
                 ?.let { hasBackingField ->
-                    builder.append(" /* hasBackingField: ")
+                    @OptIn(IntellijInternalApi::class)
+                    builder.append(' ')
+                        .append(StubUtils.HAS_BACKING_FIELD_COMMENT_PREFIX)
                         .append(hasBackingField)
                         .append(" */")
                 }
