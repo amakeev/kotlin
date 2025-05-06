@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.generators
 import org.jetbrains.kotlin.generators.model.*
 import org.jetbrains.kotlin.generators.util.TestGeneratorUtil
 import org.jetbrains.kotlin.generators.util.TestGeneratorUtil.MATCH_ALL
+import org.jetbrains.kotlin.generators.util.TestGeneratorUtil.MATCH_ALL_BUT_DOTS
 import org.jetbrains.kotlin.generators.util.extractTagsFromDirectory
 import org.jetbrains.kotlin.test.TargetBackend
 import java.io.File
@@ -127,7 +128,7 @@ class TestGroup(
             recursive: Boolean = true,
             excludeParentDirs: Boolean = false,
             extension: String? = "kt", // null string means dir (name without dot)
-            pattern: String = if (extension == null) """^([^\.]+)$""" else """^$MATCH_ALL\.$extension$""",
+            pattern: String = if (extension == null) """^$MATCH_ALL_BUT_DOTS$""" else """^$MATCH_ALL\.$extension$""",
             excludedPattern: String? = null,
             testMethod: String = "doTest",
             singleClass: Boolean = false, // if true then tests from subdirectories will be flattened to single class
