@@ -524,7 +524,7 @@ fun checkForLocalRedeclarations(elements: List<FirElement>, context: CheckerCont
             is FirProperty -> {
                 // Enable snippet specific handling of the local delegated extension properties
                 if (element.isReplSnippetDeclaration == true && element.delegate != null && element.receiverParameter != null) {
-                    element.symbol to Name.identifier("${element.receiverParameter?.typeRef}.${element.name}")
+                    element.symbol to Name.identifier("${element.receiverParameter?.typeRef?.coneType}.${element.name}")
                 } else { element.symbol to element.name }
             }
             is FirVariable -> element.symbol to element.name
