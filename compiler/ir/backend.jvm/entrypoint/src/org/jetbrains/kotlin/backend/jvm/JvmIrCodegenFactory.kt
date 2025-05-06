@@ -338,7 +338,11 @@ class JvmIrCodegenFactory(
         )
         if (evaluatorFragmentInfoForPsi2Ir != null) {
             context.evaluatorData =
-                JvmEvaluatorData(mutableMapOf(), evaluatorFragmentInfoForPsi2Ir.methodIR, evaluatorFragmentInfoForPsi2Ir.typeArgumentsMap)
+                JvmEvaluatorData(
+                    JvmBackendContext.SharedLocalDeclarationsData(),
+                    evaluatorFragmentInfoForPsi2Ir.methodIR,
+                    evaluatorFragmentInfoForPsi2Ir.typeArgumentsMap
+                )
         }
         val generationExtensions = state.project.filteredExtensions
             .mapNotNull { it.getPlatformIntrinsicExtension(context) as? JvmIrIntrinsicExtension }

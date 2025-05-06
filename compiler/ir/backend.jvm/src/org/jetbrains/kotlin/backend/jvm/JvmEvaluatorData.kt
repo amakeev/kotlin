@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.ir.types.IrType
 class JvmEvaluatorData(
     // This is populated by LocalDeclarationsLowering with the intermediate data allowing mapping from local function captures to parameters
     // and accurate transformation of calls to local functions from code fragments.
-    val localDeclarationsLoweringData: MutableMap<IrFunction, JvmBackendContext.LocalFunctionData>,
+    val localDeclarationsData: JvmBackendContext.SharedLocalDeclarationsData,
     // In K2, it is IR for synthetic evaluator-generated method which returns evaluated expression value
     // In K1, it is null
     val evaluatorGeneratedFunction: IrFunction?,
