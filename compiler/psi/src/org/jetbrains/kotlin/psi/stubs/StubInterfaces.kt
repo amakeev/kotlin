@@ -138,7 +138,7 @@ interface KotlinPropertyStub : KotlinCallableStubBase<KtProperty> {
      * Whether the property has a backing field.
      * The property is supposed to work only for binary stubs.
      *
-     * Returns **null**` if the information is not available (e.g., for source stubs or unsupported platforms).
+     * Returns **null** if the information is not available (e.g., for source stubs or unsupported platforms).
      */
     val hasBackingField: Boolean?
 }
