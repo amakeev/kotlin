@@ -9278,4 +9278,102 @@ public class LLDiagnosticsFirTestGenerated extends AbstractLLDiagnosticsTest {
       }
     }
   }
+
+  @Nested
+  @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE")
+  @TestDataPath("$PROJECT_ROOT")
+  public class ResolveCanFreezeIDE {
+    @Test
+    public void testAllFilesPresentInResolveCanFreezeIDE() {
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE"), Pattern.compile("^([^.]+)\\.kt\\.can-freeze-ide$"), null, true);
+    }
+
+    @Test
+    @TestMetadata("javaNullability.kt.can-freeze-ide")
+    public void testJavaNullability() {
+      runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/javaNullability.kt.can-freeze-ide");
+    }
+
+    @Test
+    @TestMetadata("kt69995.kt.can-freeze-ide")
+    public void testKt69995() {
+      runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/kt69995.kt.can-freeze-ide");
+    }
+
+    @Test
+    @TestMetadata("manyCapturedTypes.kt.can-freeze-ide")
+    public void testManyCapturedTypes() {
+      runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/manyCapturedTypes.kt.can-freeze-ide");
+    }
+
+    @Test
+    @TestMetadata("uninferredTypeVariableTypeInInferenceFromSelfUpperBound.kt.can-freeze-ide")
+    public void testUninferredTypeVariableTypeInInferenceFromSelfUpperBound() {
+      runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/uninferredTypeVariableTypeInInferenceFromSelfUpperBound.kt.can-freeze-ide");
+    }
+
+    @Nested
+    @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters")
+    @TestDataPath("$PROJECT_ROOT")
+    public class ContextParameters {
+      @Test
+      public void testAllFilesPresentInContextParameters() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters"), Pattern.compile("^([^.]+)\\.kt\\.can-freeze-ide$"), null, true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters/parsing")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Parsing {
+        @Test
+        public void testAllFilesPresentInParsing() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters/parsing"), Pattern.compile("^([^.]+)\\.kt\\.can-freeze-ide$"), null, true);
+        }
+
+        @Test
+        @TestMetadata("propertyInContext.kt.can-freeze-ide")
+        public void testPropertyInContext() {
+          runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters/parsing/propertyInContext.kt.can-freeze-ide");
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Pcla {
+      @Test
+      public void testAllFilesPresentInPcla() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla"), Pattern.compile("^([^.]+)\\.kt\\.can-freeze-ide$"), null, true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla/issues")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Issues {
+        @Test
+        public void testAllFilesPresentInIssues() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla/issues"), Pattern.compile("^([^.]+)\\.kt\\.can-freeze-ide$"), null, true);
+        }
+
+        @Test
+        @TestMetadata("kt73771Original.kt.can-freeze-ide")
+        public void testKt73771Original() {
+          runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla/issues/kt73771Original.kt.can-freeze-ide");
+        }
+
+        @Test
+        @TestMetadata("kt73771Simple.kt.can-freeze-ide")
+        public void testKt73771Simple() {
+          runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla/issues/kt73771Simple.kt.can-freeze-ide");
+        }
+
+        @Test
+        @TestMetadata("manyDelegateInsidePCLA.kt.can-freeze-ide")
+        public void testManyDelegateInsidePCLA() {
+          runTest("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla/issues/manyDelegateInsidePCLA.kt.can-freeze-ide");
+        }
+      }
+    }
+  }
 }
