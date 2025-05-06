@@ -9,14 +9,17 @@ import java.io.File
 import java.lang.StringBuilder
 
 object TestGeneratorUtil {
-    @Language("RegExp") const val KT_OR_KTS = """^(.+)\.(kt|kts)$"""
-    @Language("RegExp") const val KT = """^(.+)\.(kt)$"""
-    @Language("RegExp") const val KTS = """^(.+)\.(kts)$"""
-    @Language("RegExp") const val KT_OR_KTS_WITHOUT_DOTS_IN_NAME = """^([^.]+)\.(kt|kts)$"""
+    @Language("RegExp") const val MATCH_ALL = """(.+)"""
+    @Language("RegExp") const val MATCH_ALL_BUT_DOTS = """([^.]+)"""
 
-    @Language("RegExp") const val KT_WITHOUT_DOTS_IN_NAME = """^([^.]+)\.kt$"""
-    @Language("RegExp") const val KT_WITHOUT_FIR_PREFIX = """^(.+)(?<!\.fir)\.kt$"""
-    @Language("RegExp") const val KT_OR_KTS_WITH_FIR_PREFIX = "^(.+)\\.fir\\.kts?\$"
+    @Language("RegExp") const val KT_OR_KTS = """^$MATCH_ALL\.(kt|kts)$"""
+    @Language("RegExp") const val KT = """^$MATCH_ALL\.(kt)$"""
+    @Language("RegExp") const val KTS = """^$MATCH_ALL\.(kts)$"""
+
+    @Language("RegExp") const val KT_OR_KTS_WITHOUT_DOTS_IN_NAME = """^$MATCH_ALL_BUT_DOTS\.(kt|kts)$"""
+    @Language("RegExp") const val KT_WITHOUT_DOTS_IN_NAME = """^$MATCH_ALL_BUT_DOTS\.kt$"""
+
+    @Language("RegExp") const val KT_OR_KTS_WITH_FIR_PREFIX = """^$MATCH_ALL\.fir\.kts?$"""
 
     @JvmStatic
     fun escapeForJavaIdentifier(fileName: String): String {
