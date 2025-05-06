@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.test.generators
 import org.jetbrains.kotlin.generators.TestGroup.TestClass
 import org.jetbrains.kotlin.generators.generateTestGroupSuiteWithJUnit5
 import org.jetbrains.kotlin.generators.util.TestGeneratorUtil
+import org.jetbrains.kotlin.generators.util.TestGeneratorUtil.canFreezeIDE
 import org.jetbrains.kotlin.test.TargetBackend
 import org.jetbrains.kotlin.test.runners.*
 import org.jetbrains.kotlin.test.runners.codegen.*
@@ -452,12 +453,9 @@ fun generateJUnit5CompilerTests(args: Array<String>, mainClassName: String?) {
                     skipSpecificFile = skipSpecificFileForFirDiagnosticTest(onlyTypealiases),
                     skipTestAllFilesCheck = onlyTypealiases
                 )
-
-                // Those files might contain code which when being analyzed in the IDE might accidentally freeze it, thus we use a fake
-                // file extension for it.
                 model(
                     "resolveCanFreezeIDE",
-                    pattern = """^(.+)\.(nkt)$""",
+                    pattern = pattern.canFreezeIDE,
                     skipSpecificFile = skipSpecificFileForFirDiagnosticTest(onlyTypealiases),
                     skipTestAllFilesCheck = onlyTypealiases
                 )
@@ -509,13 +507,10 @@ fun generateJUnit5CompilerTests(args: Array<String>, mainClassName: String?) {
                     "testData/diagnostics/jvmIntegration",
                     "fir/analysis-tests/testData/resolve",
                     "fir/analysis-tests/testData/resolveWithStdlib",
-                    // Those files might contain code which when being analyzed in the IDE might accidentally freeze it, thus we use a fake
-                    // file extension `nkt` for it.
-                    "fir/analysis-tests/testData/resolveCanFreezeIDE",
                 )
-                val pattern = when {
-                    allowKts -> "^(.*)\\.(kts?|nkt)$"
-                    else -> "^(.*)\\.(kt|nkt)$"
+                val pattern = when (allowKts) {
+                    true -> TestGeneratorUtil.KT_OR_KTS
+                    false -> TestGeneratorUtil.KT
                 }
 
                 for (path in relativeRootPaths) {
@@ -528,6 +523,14 @@ fun generateJUnit5CompilerTests(args: Array<String>, mainClassName: String?) {
                         excludeDirsRecursively = excludeDirsRecursively,
                     )
                 }
+                model(
+                    "fir/analysis-tests/testData/resolveCanFreezeIDE",
+                    excludeDirs = listOf("declarations/multiplatform/k1"),
+                    skipTestAllFilesCheck = true,
+                    pattern = pattern.canFreezeIDE,
+                    excludedPattern = CUSTOM_TEST_DATA_EXTENSION_PATTERN,
+                    excludeDirsRecursively = excludeDirsRecursively,
+                )
             }
             testClass<AbstractPhasedJvmDiagnosticLightTreeTest> {
                 phasedModel(allowKts = false)
