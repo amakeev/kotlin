@@ -610,11 +610,17 @@ public class FirLightTreeDiagnosticsWithoutAliasExpansionTestGenerated extends A
   }
 
   @Nested
-  @TestMetadata("compiler/fir/analysis-tests/testData/resolveFreezesIDE")
+  @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE")
   @TestDataPath("$PROJECT_ROOT")
-  public class ResolveFreezesIDE {
+  public class ResolveCanFreezeIDE {
     @Nested
-    @TestMetadata("compiler/fir/analysis-tests/testData/resolveFreezesIDE/pcla")
+    @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/contextParameters")
+    @TestDataPath("$PROJECT_ROOT")
+    public class ContextParameters {
+    }
+
+    @Nested
+    @TestMetadata("compiler/fir/analysis-tests/testData/resolveCanFreezeIDE/pcla")
     @TestDataPath("$PROJECT_ROOT")
     public class Pcla {
     }

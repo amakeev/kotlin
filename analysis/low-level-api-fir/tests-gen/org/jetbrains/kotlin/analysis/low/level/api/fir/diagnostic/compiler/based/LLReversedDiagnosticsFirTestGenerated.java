@@ -2464,16 +2464,6 @@ public class LLReversedDiagnosticsFirTestGenerated extends AbstractLLReversedDia
       }
 
       @Nested
-      @TestMetadata("compiler/fir/analysis-tests/testData/resolve/contextParameters/parsing")
-      @TestDataPath("$PROJECT_ROOT")
-      public class Parsing {
-        @Test
-        public void testAllFilesPresentInParsing() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolve/contextParameters/parsing"), Pattern.compile("^([^.]+)\\.kt$"), null, true);
-        }
-      }
-
-      @Nested
       @TestMetadata("compiler/fir/analysis-tests/testData/resolve/contextParameters/smartcast")
       @TestDataPath("$PROJECT_ROOT")
       public class Smartcast {

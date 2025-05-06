@@ -456,7 +456,7 @@ fun generateJUnit5CompilerTests(args: Array<String>, mainClassName: String?) {
                 // Those files might contain code which when being analyzed in the IDE might accidentally freeze it, thus we use a fake
                 // file extension for it.
                 model(
-                    "resolveFreezesIDE",
+                    "resolveCanFreezeIDE",
                     pattern = """^(.+)\.(nkt)$""",
                     skipSpecificFile = skipSpecificFileForFirDiagnosticTest(onlyTypealiases),
                     skipTestAllFilesCheck = onlyTypealiases
@@ -511,7 +511,7 @@ fun generateJUnit5CompilerTests(args: Array<String>, mainClassName: String?) {
                     "fir/analysis-tests/testData/resolveWithStdlib",
                     // Those files might contain code which when being analyzed in the IDE might accidentally freeze it, thus we use a fake
                     // file extension `nkt` for it.
-                    "fir/analysis-tests/testData/resolveFreezesIDE",
+                    "fir/analysis-tests/testData/resolveCanFreezeIDE",
                 )
                 val pattern = when {
                     allowKts -> "^(.*)\\.(kts?|nkt)$"
