@@ -134,14 +134,7 @@ abstract class KotlinPackageJsonTask :
                     .disallowChanges()
 
                 task.packageJsonMain.set(compilation.npmProject.main)
-
-
-                task.packageJsonTypes.set(
-                    compilation.npmProject.typesFilePath
-                        .zip(target.shouldGenerateTypeScriptDefinitions) { typesPath, shouldGenerateTypeScriptDefinitions ->
-                            if (shouldGenerateTypeScriptDefinitions) typesPath else null
-                        }
-                )
+                task.packageJsonTypes.set(compilation.npmProject.typesFilePath)
 
                 task.packageJson.set(compilation.npmProject.packageJsonFile.mapToFile())
 

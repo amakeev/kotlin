@@ -39,9 +39,6 @@ abstract class PublicPackageJsonTask :
     abstract val jsIrCompilation: Property<Boolean>
 
     @get:Input
-    abstract val generateTypes: Property<Boolean>
-
-    @get:Input
     abstract val extension: Property<String>
 
     @get:Input
@@ -95,14 +92,11 @@ abstract class PublicPackageJsonTask :
             name = npmProjectName.get(),
             version = projectVersion,
             main = npmProjectMain.get(),
+            types = npmProjectTypes.orNull,
             npmDependencies = externalDependencies,
             packageJsonHandlers = packageJsonHandlers.get()
         ).let { packageJson ->
             packageJson.main = "${npmProjectName.get()}.${extension.get()}"
-
-            if (generateTypes.get()) {
-                packageJson.types = npmProjectTypes.get()
-            }
 
             packageJson.apply {
                 listOf(

@@ -3703,7 +3703,8 @@ public class org/jetbrains/kotlin/gradle/targets/js/npm/NpmProject : java/io/Ser
 	public final fun getProject ()Lorg/gradle/api/Project;
 	public final fun getPublicPackageJsonTaskName ()Ljava/lang/String;
 	public final fun getTarget ()Lorg/jetbrains/kotlin/gradle/targets/js/dsl/KotlinJsTargetDsl;
-	public final fun getTypes ()Lorg/gradle/api/provider/Provider;
+	public final fun getTypesFileName ()Lorg/gradle/api/provider/Provider;
+	public final fun getTypesFilePath ()Lorg/gradle/api/provider/Provider;
 	public final fun require (Ljava/lang/String;)Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public final fun useTool (Lorg/gradle/process/ExecSpec;Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
@@ -3897,10 +3898,10 @@ public abstract class org/jetbrains/kotlin/gradle/targets/js/npm/PublicPackageJs
 	public abstract fun getCompilationDisambiguatedName ()Lorg/gradle/api/provider/Property;
 	public abstract fun getExtension ()Lorg/gradle/api/provider/Property;
 	public final fun getExternalDependencies ()Ljava/util/Collection;
-	public abstract fun getGenerateTypes ()Lorg/gradle/api/provider/Property;
 	public abstract fun getJsIrCompilation ()Lorg/gradle/api/provider/Property;
 	public abstract fun getNpmProjectMain ()Lorg/gradle/api/provider/Property;
 	public abstract fun getNpmProjectName ()Lorg/gradle/api/provider/Property;
+	public abstract fun getNpmProjectTypes ()Lorg/gradle/api/provider/Property;
 	public final fun getPackageJsonFile ()Ljava/io/File;
 	public abstract fun getPackageJsonHandlers ()Lorg/gradle/api/provider/ListProperty;
 	public final fun getProjectVersion ()Ljava/lang/String;

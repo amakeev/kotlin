@@ -91,7 +91,11 @@ open class NpmProject(@Transient val compilation: KotlinJsIrCompilation) : Seria
         "${DIST_FOLDER}/$name.$ext"
     }
 
-    val typesFileName: Provider<String> = name.map { "$it.d.ts" }
+    val typesFileName: Provider<String> = name
+        .zip(compilation.target.shouldGenerateTypeScriptDefinitions) { name, shouldGenerateTypeScriptDefinitions ->
+            if (shouldGenerateTypeScriptDefinitions) "$name.d.ts" else null
+        }
+
     val typesFilePath: Provider<String> = typesFileName.map { "$DIST_FOLDER/$it" }
 
     val publicPackageJsonTaskName: String
