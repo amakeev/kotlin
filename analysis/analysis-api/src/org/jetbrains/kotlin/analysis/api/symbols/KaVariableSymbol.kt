@@ -212,10 +212,10 @@ public sealed class KaPropertySymbol : KaVariableSymbol(), KaTypeParameterOwnerS
      * [declared](https://github.com/Kotlin/KEEP/issues/278) for the property.
      *
      * **Important**: this flag is properly supported for source declarations on all platforms,
-     * but libraries it properly works only on supported platforms.
+     * but for libraries it properly works only on supported platforms.
      * Only Kotlin/JVM has this information in the metadata yet. Support for other platforms will
-     * be available as soon as your library is compiled with the compiled with
-     * supports [KT-77281](https://youtrack.jetbrains.com/issue/KT-77281) feature
+     * be available as soon as a library is compiled with a compiler version that
+     * supports [KT-77281](https://youtrack.jetbrains.com/issue/KT-77281).
      *
      * ### Good to know
      * On Kotlin/JVM compiled properties from annotations classes are compiled without a backing field,
