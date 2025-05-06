@@ -286,7 +286,7 @@ object FirOptInUsageBaseChecker {
         session: FirSession,
         annotatedOwnerClassName: String? = null,
     ): Experimentality? {
-        val experimental = getAnnotationByClassId(OptInNames.REQUIRES_OPT_IN_CLASS_ID, session)
+        val experimental = getAnnotationWithResolvedArgumentsByClassId(OptInNames.REQUIRES_OPT_IN_CLASS_ID, session)
             ?: return null
 
         val levelArgument = experimental.findArgumentByName(LEVEL)

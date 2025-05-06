@@ -54,7 +54,9 @@ fun FirBasedSymbol<*>.checkSinceKotlinVersionAccessibility(context: CheckerConte
 }
 
 private fun FirBasedSymbol<*>.getOwnSinceKotlinVersion(session: FirSession): FirSinceKotlinValue? {
-    val sinceKotlinSingleArgument = getAnnotationByClassId(StandardClassIds.Annotations.SinceKotlin, session)?.findArgumentByName(
+    val sinceKotlinSingleArgument = getAnnotationWithResolvedArgumentsByClassId(
+        StandardClassIds.Annotations.SinceKotlin, session
+    )?.findArgumentByName(
         StandardClassIds.Annotations.ParameterNames.sinceKotlinVersion
     )
     val apiVersion = ((sinceKotlinSingleArgument as? FirLiteralExpression)?.value as? String)?.let(ApiVersion.Companion::parse)
@@ -64,7 +66,9 @@ private fun FirBasedSymbol<*>.getOwnSinceKotlinVersion(session: FirSession): Fir
 }
 
 private fun FirBasedSymbol<*>.loadWasExperimentalMarkerClasses(session: FirSession): List<FirRegularClassSymbol> {
-    val wasExperimental = getAnnotationByClassId(OptInNames.WAS_EXPERIMENTAL_CLASS_ID, session) ?: return emptyList()
+    val wasExperimental = getAnnotationWithResolvedArgumentsByClassId(
+        OptInNames.WAS_EXPERIMENTAL_CLASS_ID, session
+    ) ?: return emptyList()
     val annotationClasses = wasExperimental.findArgumentByName(OptInNames.WAS_EXPERIMENTAL_ANNOTATION_CLASS) ?: return emptyList()
     return annotationClasses.extractClassesFromArgument(session)
 }
