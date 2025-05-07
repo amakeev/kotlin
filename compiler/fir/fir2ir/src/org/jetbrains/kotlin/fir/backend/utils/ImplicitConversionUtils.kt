@@ -114,13 +114,13 @@ fun IrStatementContainer.coerceStatementsToUnit(coerceLastExpressionToUnit: Bool
  */
 context(c: Fir2IrComponents)
 fun IrExpression.coerceToUnitHandlingSpecialBlocks(): IrExpression {
-    return if (this !is IrContainerExpression || origin != null) {
-        Fir2IrImplicitCastInserter.coerceToUnitIfNeeded(this, c.builtins)
-    } else {
+    return if (this is IrContainerExpression && origin == null) {
         val lastStatement = statements.lastOrNull()
         if (lastStatement is IrExpression) {
             statements[statements.lastIndex] = Fir2IrImplicitCastInserter.coerceToUnitIfNeeded(lastStatement, c.builtins)
         }
         this
+    } else {
+        Fir2IrImplicitCastInserter.coerceToUnitIfNeeded(this, c.builtins)
     }
 }
