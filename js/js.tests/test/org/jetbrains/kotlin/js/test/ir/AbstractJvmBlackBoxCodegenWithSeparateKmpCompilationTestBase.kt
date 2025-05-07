@@ -51,76 +51,46 @@ abstract class AbstractJvmBlackBoxCodegenWithSeparateKmpCompilationTestBase(
 ) : AbstractKotlinCompilerWithTargetBackendTest(TargetBackend.JS_IR) {
 
     override fun configure(builder: TestConfigurationBuilder) = with(builder) {
-        globalDefaults {
-            frontend = FrontendKinds.FIR
-            targetPlatform = JsPlatforms.defaultJsPlatform
-            dependencyKind = DependencyKind.Binary
-        }
-
-        val pathToRootOutputDir = System.getProperty("kotlin.js.test.root.out.dir") ?: error("'kotlin.js.test.root.out.dir' is not set")
         defaultDirectives {
             FIR_PARSER with parser
             +SEPARATE_KMP_COMPILATION
             +DISABLE_DOUBLE_CHECKING_COMMON_DIAGNOSTICS
             +WITH_STDLIB
-            JsEnvironmentConfigurationDirectives.PATH_TO_ROOT_OUTPUT_DIR with pathToRootOutputDir
-            JsEnvironmentConfigurationDirectives.PATH_TO_TEST_DIR with pathToTestDir
-            JsEnvironmentConfigurationDirectives.TEST_GROUP_OUTPUT_DIR_PREFIX with testGroupOutputDirPrefix
-            +JsEnvironmentConfigurationDirectives.GENERATE_NODE_JS_RUNNER
-            if (getBoolean("kotlin.js.ir.skipRegularMode")) +JsEnvironmentConfigurationDirectives.SKIP_REGULAR_MODE
-            LANGUAGE with "+JsAllowValueClassesInExternals"
             DIAGNOSTICS with "-warnings"
         }
 
-        useConfigurators(
-            ::CommonEnvironmentConfigurator,
-            ::MetadataEnvironmentConfiguratorForSeparateKmpCompilation,
-            ::JsEnvironmentConfiguratorForSeparateKmpCompilation,
+        commonServicesConfigurationForJsCodegenTest(
+            targetFrontend = FrontendKinds.FIR,
+            customConfigurators = listOf(
+                ::CommonEnvironmentConfigurator,
+                ::MetadataEnvironmentConfiguratorForSeparateKmpCompilation,
+                ::JsEnvironmentConfiguratorForSeparateKmpCompilation,
+            )
         )
 
-        useAdditionalSourceProviders(
-            ::MainFunctionForBlackBoxTestsSourceProvider,
-            ::CoroutineHelpersSourceFilesProvider,
-        )
+        setupFirstStageSteps()
+        setupCommonHandlersForJsTest(IGNORE_HMPP)
 
+        commonConfigurationForJsBackendSecondStageTest(
+            pathToTestDir,
+            testGroupOutputDirPrefix,
+            JsBackendFacades.WithRecompilation
+        )
+        // TODO (KT-77384): enable box handlers
+        // configureJsBoxHandlers()
+    }
+
+    private fun TestConfigurationBuilder.setupFirstStageSteps() {
         facadeStep(::FirCliMetadataFrontendFacade)
         facadeStep(::FirCliWebFacade)
-
-        firHandlersStep {
-            useHandlers(
-                ::FirDiagnosticsHandler
-            )
-        }
-
+        firHandlersStep()
         facadeStep(::FirCliMetadataSerializerFacade)
         facadeStep(::Fir2IrCliWebFacade)
-
-        irHandlersStep {
-            useHandlers(
-                ::IrNoExpectSymbolsHandler,
-                ::NoFir2IrCompilationErrorsHandler
-            )
-        }
-
+        irHandlersStep()
         facadeStep(::JsIrInliningFacade)
-
-        inlinedIrHandlersStep {
-            useHandlers(::NoFir2IrCompilationErrorsHandler)
-        }
-
+        inlinedIrHandlersStep()
         facadeStep(::FirKlibSerializerCliWebFacade)
-
-        klibArtifactsHandlersStep {
-            useHandlers(::KlibBackendDiagnosticsHandler)
-        }
-
-        facadeStep(JsBackendFacades.WithRecompilation.deserializerAndLoweringFacade)
-        facadeStep(JsBackendFacades.WithRecompilation.recompileFacade)
-
-        useAfterAnalysisCheckers(
-            ::BlackBoxCodegenSuppressor.bind(IGNORE_HMPP),
-        )
-        enableMetaInfoHandler()
+        klibArtifactsHandlersStep()
     }
 }
 
